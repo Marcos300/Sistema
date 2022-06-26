@@ -18,9 +18,11 @@ import javax.swing.text.MaskFormatter;
  */
 public class CNPJ {
     private String cnpj;
+    private boolean Mascara;
     private static final String Formato = "##.###.###/####-##";
     
-    public CNPJ(String C) {
+    public CNPJ(String C,boolean mask) {
+        this.Mascara = mask;
         this.cnpj = this.Format(C,false);
     }
     

@@ -18,11 +18,19 @@ import javax.swing.text.MaskFormatter;
  * https://www.youtube.com/watch?v=zID7E6MkWd0
  * https://github.com/gilbertotoledo/curso-java/blob/main/Aula%2011/src/aula11/CPF.java
  */
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+
+/**
+ * @author Gilberto Toledo
+ */
 public class CPF {
     private String cpf;
+    private boolean mascara;
     private static final String Formato = "###.###.###-##";
     
-    public CPF(String C) {
+    public CPF(String C, boolean mask) {
+        this.mascara = mask;
         this.cpf = this.Format(C,false);
     }
     

@@ -162,6 +162,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Executar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(0, 51, 51))); // NOI18N
         jPanel1.setForeground(new java.awt.Color(255, 0, 0));
 
+        btGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/savetheapplication_guardar_2958.png"))); // NOI18N
         btGravar.setText("Gravar");
         btGravar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,6 +171,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
         });
         jPanel1.add(btGravar);
 
+        btDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/delete_delete_exit_1577.png"))); // NOI18N
         btDeletar.setText("Deletar");
         btDeletar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -218,6 +220,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
 
         btCarregar.setBackground(new java.awt.Color(255, 51, 51));
         btCarregar.setForeground(new java.awt.Color(0, 0, 102));
+        btCarregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/office_excel_csv_15865 (1).png"))); // NOI18N
         btCarregar.setText("Carregar");
         btCarregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,6 +230,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
         jPanel2.add(btCarregar);
 
         btLimpar.setBackground(new java.awt.Color(255, 51, 51));
+        btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/1486503744-backspace-clean-clear-delete-remove-erase_81258.png"))); // NOI18N
         btLimpar.setText("Limpar");
         btLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -239,6 +243,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Consultar e Exportar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 255, 255))); // NOI18N
 
         btConsulta.setBackground(new java.awt.Color(102, 255, 102));
+        btConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/business_application_download_downloaddatabase_thedatabase_2320.png"))); // NOI18N
         btConsulta.setText("Consulta no BD");
         btConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -248,6 +253,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
         jPanel3.add(btConsulta);
 
         btExportar.setBackground(new java.awt.Color(51, 255, 51));
+        btExportar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/ext_csv_filetype_icon_176252.png"))); // NOI18N
         btExportar.setText("Exportar .CSV");
         btExportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -266,6 +272,11 @@ public class CarregarRegistros extends javax.swing.JFrame {
         });
 
         cboCampoEscolhido.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NOME", "PRECO", "QUANTIDADE" }));
+        cboCampoEscolhido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboCampoEscolhidoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout txtBuscarLayout = new javax.swing.GroupLayout(txtBuscar);
         txtBuscar.setLayout(txtBuscarLayout);
@@ -274,7 +285,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
             .addGroup(txtBuscarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(txtBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cboCampoEscolhido, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cboCampoEscolhido, 0, 183, Short.MAX_VALUE)
                     .addComponent(buscar))
                 .addContainerGap())
         );
@@ -296,7 +307,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
-                    .addComponent(painelComandos, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
+                    .addComponent(painelComandos, javax.swing.GroupLayout.DEFAULT_SIZE, 887, Short.MAX_VALUE)
                     .addGroup(painelLayout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -317,7 +328,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(painelComandos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -548,6 +559,10 @@ public class CarregarRegistros extends javax.swing.JFrame {
         
         }
     }//GEN-LAST:event_tabelaMouseClicked
+
+    private void cboCampoEscolhidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboCampoEscolhidoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboCampoEscolhidoActionPerformed
 
     /**
      * @param args the command line arguments

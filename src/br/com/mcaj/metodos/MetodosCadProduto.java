@@ -58,7 +58,7 @@ public class MetodosCadProduto {
     }
 
     public void cmdRdGravar(JRadioButton selecaoDoRadio, JButton cmdGravar) {
-// TODO add your handling code here:
+   // TODO add your handling code here:
         // TODO add your handling code here:
       
         

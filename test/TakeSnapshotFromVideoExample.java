@@ -31,14 +31,6 @@ import com.github.sarxos.webcam.WebcamResolution;
 @SuppressWarnings("serial")
 public class TakeSnapshotFromVideoExample extends JFrame {
 
-    private void setRelativeLayoutTO(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void setRelativeLayoutTo(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 	private class SnapMeAction extends AbstractAction {
 
 		public SnapMeAction() {
@@ -124,7 +116,7 @@ public class TakeSnapshotFromVideoExample extends JFrame {
 	public TakeSnapshotFromVideoExample() {
 
 		super("Test Snap Different Size");
-             
+
 		for (Webcam webcam : webcams) {
 			webcam.setViewSize(size);
 			WebcamPanel panel = new WebcamPanel(webcam, size, false);
@@ -151,7 +143,7 @@ public class TakeSnapshotFromVideoExample extends JFrame {
 
 		pack();
 		setVisible(true);
-                setRelativeLayoutTo(null);
+                setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 

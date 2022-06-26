@@ -7,7 +7,9 @@ package br.com.mcaj.gui;
 
 import br.com.mcaj.bean.BeanProduto;
 import br.com.mcaj.dao.DaoCadProduto;
+import br.com.mcaj.metodos.BloqueiaLetrasEnumeros;
 import br.com.mcaj.metodos.MetodosCadProduto;
+
 import java.sql.SQLException;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
@@ -87,9 +89,26 @@ public class CadProduto extends javax.swing.JFrame {
         lbPreco.setForeground(new java.awt.Color(0, 0, 0));
         lbPreco.setText("Preço");
 
+        txtPreco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrecoActionPerformed(evt);
+            }
+        });
+
         lbQtde.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         lbQtde.setForeground(new java.awt.Color(0, 0, 0));
         lbQtde.setText("Quantidade");
+
+        txtQuantidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtQuantidadeActionPerformed(evt);
+            }
+        });
+        txtQuantidade.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtQuantidadeKeyTyped(evt);
+            }
+        });
 
         painelComandos.setBackground(new java.awt.Color(255, 255, 153));
         painelComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Comandos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(204, 0, 0))); // NOI18N
@@ -98,6 +117,7 @@ public class CadProduto extends javax.swing.JFrame {
         painelDeComandos.setBackground(new java.awt.Color(204, 255, 204));
         painelDeComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Executar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(204, 0, 0))); // NOI18N
 
+        btGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/savetheapplication_guardar_2958.png"))); // NOI18N
         btGravar.setText("Gravar");
         btGravar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,6 +128,7 @@ public class CadProduto extends javax.swing.JFrame {
         btGravar.getAccessibleContext().setAccessibleName("btGravar");
         btGravar.getAccessibleContext().setAccessibleDescription("");
 
+        btDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/delete_delete_exit_1577.png"))); // NOI18N
         btDeletar.setText("Deletar");
         btDeletar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,6 +137,7 @@ public class CadProduto extends javax.swing.JFrame {
         });
         painelDeComandos.add(btDeletar);
 
+        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/Cancel_icon-icons.com_73703.png"))); // NOI18N
         btCancelar.setText("Cancelar");
         btCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,6 +169,7 @@ public class CadProduto extends javax.swing.JFrame {
 
         painelComandos.add(jPanel1);
 
+        btNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Marcos\\Downloads\\1486485588-add-create-new-math-sign-cross-plus_81186.png")); // NOI18N
         btNovo.setText("Novo");
         btNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,8 +205,9 @@ public class CadProduto extends javax.swing.JFrame {
         painelLayout.setVerticalGroup(
             painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelLayout.createSequentialGroup()
+                .addGap(7, 7, 7)
                 .addComponent(btNovo)
-                .addGap(16, 16, 16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbNome)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -289,6 +313,20 @@ public class CadProduto extends javax.swing.JFrame {
         app.cmdRdAtualizar(selecAtualizar, btGravar);
 
     }//GEN-LAST:event_selecAtualizarActionPerformed
+
+    private void txtPrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecoActionPerformed
+
+    private void txtQuantidadeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantidadeKeyTyped
+        // TODO add your handling code here:
+        BloqueiaLetrasEnumeros bloqueioLetras = new BloqueiaLetrasEnumeros();
+        bloqueioLetras.bloqueiaLetras(evt);
+    }//GEN-LAST:event_txtQuantidadeKeyTyped
+
+    private void txtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantidadeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtQuantidadeActionPerformed
 
     /**
      * @param args the command line arguments

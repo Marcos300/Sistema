@@ -71,6 +71,7 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Senha");
 
+        btLogar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Marcos\\Downloads\\customer_person_people_man_user_client_1629.png")); // NOI18N
         btLogar.setText("Entrar");
         btLogar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,6 +79,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/Cancel_icon-icons.com_73703.png"))); // NOI18N
         btCancelar.setText("Cancelar");
         btCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,12 +100,13 @@ public class Login extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel2)
                 .addGap(15, 15, 15)
-                .addComponent(pfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(painelLoginLayout.createSequentialGroup()
-                .addGap(114, 114, 114)
-                .addComponent(btLogar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btCancelar))
+                .addGroup(painelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelLoginLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(btLogar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btCancelar))
+                    .addComponent(pfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         painelLoginLayout.setVerticalGroup(
             painelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,7 +125,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(painelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btLogar)
                     .addComponent(btCancelar))
-                .addGap(12, 12, 12))
+                .addContainerGap())
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();

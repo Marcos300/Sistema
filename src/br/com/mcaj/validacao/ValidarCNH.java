@@ -6,17 +6,27 @@
 
 package br.com.mcaj.validacao;
 
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+
 /**
  *
  * @author Marcos
  */
 public class ValidarCNH {
+     private static final String Formato = "###########";
+     private String cnh;
+     
+    public ValidarCNH() {
+       this.cnh = cnh;
+    }
+       
 	/*Código para validar CNH em java
 	 * Baseado no código disponível em: https://gist.github.com/felipecwb/f32f70bf05bdf1ec5663
          *https://github.com/danielsouza/validarCNH/commit/4c1ddb022eee208ab2adfe6cfdf9e6c95ddee00c
 	 * */
 
-	public static boolean validaCNH(String cnh) {
+	public boolean validaCNH(String cnh) {
 		char char1 = cnh.charAt(0);
 
 		if (cnh.replaceAll("\\D+", "").length() != 11
@@ -55,4 +65,14 @@ public class ValidarCNH {
 //		System.out.println(validaCNH("07021871297"));
 //	}
 
+       
+        public static DefaultFormatterFactory getFormat(){
+        try {
+            return new DefaultFormatterFactory(new MaskFormatter(Formato));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+ 
 }

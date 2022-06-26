@@ -91,17 +91,19 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="tfLogin" min="-2" pref="289" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="19" pref="19" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="15" pref="15" max="-2" attributes="0"/>
-                      <Component id="pfSenha" min="-2" pref="289" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
-                      <Component id="btLogar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btCancelar" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                              <Component id="btLogar" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btCancelar" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="pfSenha" min="-2" pref="289" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -126,7 +128,7 @@
                           <Component id="btLogar" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -173,6 +175,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="btLogar">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\Marcos\Downloads\customer_person_people_man_user_client_1629.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Entrar"/>
               </Properties>
               <Events>
@@ -181,6 +186,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="btCancelar">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/br/com/mcaj/gui/imagens/Cancel_icon-icons.com_73703.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Cancelar"/>
               </Properties>
               <Events>

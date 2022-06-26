@@ -50,6 +50,7 @@ public class TestWebCam implements CaptureObserver {
     boolean takeShot = false;
 
     public TestWebCam() {
+        
         CaptureSystemFactory factory = DefaultCaptureSystemFactorySingleton.instance();
         CaptureSystem system;
         try {
@@ -69,6 +70,7 @@ public class TestWebCam implements CaptureObserver {
         }
 //UI work of the program
         JFrame frame = new JFrame();
+
         frame.setSize(7000, 800);
         JPanel panel = new JPanel();
         frame.setContentPane(panel);

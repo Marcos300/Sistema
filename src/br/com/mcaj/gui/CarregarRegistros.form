@@ -84,7 +84,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jScrollPane2" max="32767" attributes="0"/>
-                      <Component id="painelComandos" alignment="0" pref="741" max="32767" attributes="0"/>
+                      <Component id="painelComandos" alignment="0" pref="887" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -111,7 +111,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="painelComandos" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" pref="232" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" pref="220" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -229,6 +229,9 @@
               <SubComponents>
                 <Component class="javax.swing.JButton" name="btGravar">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/br/com/mcaj/gui/imagens/savetheapplication_guardar_2958.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Gravar"/>
                   </Properties>
                   <Events>
@@ -237,6 +240,9 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btDeletar">
                   <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/br/com/mcaj/gui/imagens/delete_delete_exit_1577.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Deletar"/>
                   </Properties>
                   <Events>
@@ -321,6 +327,9 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="0" red="0" type="rgb"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/br/com/mcaj/gui/imagens/office_excel_csv_15865 (1).png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Carregar"/>
               </Properties>
               <Events>
@@ -331,6 +340,9 @@
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="33" green="33" red="ff" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/br/com/mcaj/gui/imagens/1486503744-backspace-clean-clear-delete-remove-erase_81258.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Limpar"/>
               </Properties>
@@ -361,6 +373,9 @@
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="ff" red="66" type="rgb"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/br/com/mcaj/gui/imagens/business_application_download_downloaddatabase_thedatabase_2320.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Consulta no BD"/>
               </Properties>
               <Events>
@@ -371,6 +386,9 @@
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="33" green="ff" red="33" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/br/com/mcaj/gui/imagens/ext_csv_filetype_icon_176252.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Exportar .CSV"/>
               </Properties>
@@ -401,7 +419,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cboCampoEscolhido" max="32767" attributes="0"/>
+                          <Component id="cboCampoEscolhido" pref="183" max="32767" attributes="0"/>
                           <Component id="buscar" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -432,6 +450,9 @@
                   <Connection code="new javax.swing.DefaultComboBoxModel(new String[] { &quot;NOME&quot;, &quot;PRECO&quot;, &quot;QUANTIDADE&quot; })" type="code"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboCampoEscolhidoActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
