@@ -60,7 +60,7 @@ private JLabel pessoa;
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 513, Short.MAX_VALUE)
+            .addGap(0, 547, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Cadastro");
@@ -130,7 +130,7 @@ private JLabel pessoa;
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(42, 42, 42))
+                .addContainerGap())
         );
 
         pack();
@@ -140,7 +140,7 @@ private JLabel pessoa;
     private void itemMenuCadLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuCadLoteActionPerformed
         // TODO add your handling code here:
   
-        CarregarRegistros cadLote = new CarregarRegistros();
+        CarregarProdutos cadLote = new CarregarProdutos();
         cadLote.setVisible(true);
          
     }//GEN-LAST:event_itemMenuCadLoteActionPerformed

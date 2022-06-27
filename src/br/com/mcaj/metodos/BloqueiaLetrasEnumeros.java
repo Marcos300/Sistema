@@ -31,7 +31,15 @@ public class BloqueiaLetrasEnumeros {
 
     }
 
-
-
+    //bloqueia caracteres especiais
+    public void bloqueiaCE(KeyEvent evt) {
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+            if (((caracter < 'A') || (caracter > 'Z')) && ((caracter < 'a') || (caracter > 'z')) && (caracter != 32)) {
+                 if ((caracter < '0') || (caracter > '9')) {
+            evt.consume();
+                 }
+            }
+        }
 
 }

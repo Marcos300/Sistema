@@ -39,7 +39,7 @@ import javax.swing.table.TableRowSorter;
  *
  * @author Marcos
  */
-public class CarregarRegistros extends javax.swing.JFrame {
+public class CarregarProdutos extends javax.swing.JFrame {
 
     private ArrayList<Object> dados;
     private String[] colunas = {"nome", "Preço", "Quantidade"};
@@ -61,7 +61,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
     /**
      * Creates new form CarregarRegitros
      */
-    public CarregarRegistros() {
+    public CarregarProdutos() {
         initComponents();
         ConfiguracaoRadioButton();
         setBotoes(true, false, false,
@@ -104,7 +104,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
         cboCampoEscolhido = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Carregar os Registros");
+        setTitle("Carregar os Produtos");
         setBackground(new java.awt.Color(255, 255, 204));
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         setName("TelaCargaRegistro"); // NOI18N
@@ -507,7 +507,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
                 buscar.setText(null);
                 btConsulta.setBackground(Color.ORANGE);
             } catch (SQLException ex) {
-                Logger.getLogger(CarregarRegistros.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CarregarProdutos.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } else {
@@ -524,7 +524,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
     private void btExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExportarActionPerformed
         // TODO add your handling code here:
         JFileChooser fchoose = new JFileChooser();
-        int opcao = fchoose.showSaveDialog(CarregarRegistros.this);
+        int opcao = fchoose.showSaveDialog(CarregarProdutos.this);
 
         if (opcao == JFileChooser.APPROVE_OPTION) {
             String name = fchoose.getSelectedFile().getName();
@@ -540,7 +540,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         // TODO add your handling code here:
-       
+      
         if (btConsulta.getModel().isSelected()) {
         int linha = tabela.getSelectedRow();
 
@@ -582,16 +582,16 @@ public class CarregarRegistros extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CarregarRegistros.class
+            java.util.logging.Logger.getLogger(CarregarProdutos.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CarregarRegistros.class
+            java.util.logging.Logger.getLogger(CarregarProdutos.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CarregarRegistros.class
+            java.util.logging.Logger.getLogger(CarregarProdutos.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CarregarRegistros.class
+            java.util.logging.Logger.getLogger(CarregarProdutos.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -599,7 +599,7 @@ public class CarregarRegistros extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CarregarRegistros().setVisible(true);
+                new CarregarProdutos().setVisible(true);
             }
         });
     }
@@ -900,7 +900,5 @@ public class CarregarRegistros extends javax.swing.JFrame {
     private javax.swing.JPanel txtBuscar;
     // End of variables declaration//GEN-END:variables
 
-    private void setRelativeLocationTo(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+ 
 }

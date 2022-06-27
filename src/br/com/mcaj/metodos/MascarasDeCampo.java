@@ -5,7 +5,9 @@
  */
 package br.com.mcaj.metodos;
 
+import com.toedter.calendar.JDateChooser;
 import java.text.ParseException;
+import java.util.Date;
 import javax.swing.JFormattedTextField;
 import javax.swing.text.MaskFormatter;
 
@@ -64,6 +66,12 @@ public class MascarasDeCampo {
 
         }
     }
-    
+
+    //jdcDataNasc
+    public void MascData(JDateChooser jdcDataNasc) throws ParseException {
+       jdcDataNasc =  new JDateChooser("dd/MM/yyyy", "##/##/#####", '-');
+
+    }
+
 }//fim da classe
 
