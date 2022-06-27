@@ -7,6 +7,8 @@ package br.com.mcaj.metodos;
 
 import java.text.ParseException;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 /**
@@ -64,8 +66,6 @@ public class MascarasDeCampo {
 
         }
     }
-
-
-
+    
 }//fim da classe
 
