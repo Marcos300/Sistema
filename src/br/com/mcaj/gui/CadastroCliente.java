@@ -8,8 +8,10 @@ package br.com.mcaj.gui;
 import br.com.mcaj.metodos.BloqueiaLetrasEnumeros;
 import br.com.mcaj.metodos.MascarasDeCampo;
 import br.com.mcaj.metodos.MetodosCadClientes;
+import br.com.mcaj.metodos.TratarTexto;
 import br.com.mcaj.validacao.CNPJ;
 import br.com.mcaj.validacao.CPF;
+import br.com.mcaj.validacao.Email;
 import br.com.mcaj.validacao.RG;
 import br.com.mcaj.validacao.Telefone;
 import br.com.mcaj.validacao.ValidarCNH;
@@ -36,6 +38,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         confJRadioButton();
         mascararCampos();
         txtCpf.setEnabled(false);
+        btWhatsapp.setEnabled(false);
 
     }
 
@@ -73,16 +76,16 @@ public class CadastroCliente extends javax.swing.JFrame {
         lbTelFixo = new javax.swing.JLabel();
         lbWhatsapp = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        lbNomeRecado = new javax.swing.JLabel();
+        txtNomeRecado = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
+        txtTelRecado = new javax.swing.JFormattedTextField();
+        txtCelRecado = new javax.swing.JFormattedTextField();
         jButton1 = new javax.swing.JButton();
         cboTipoDoc = new javax.swing.JComboBox<>();
         jdcDataNasc = new com.toedter.calendar.JDateChooser();
-        jLabel18 = new javax.swing.JLabel();
+        lbDataNasc = new javax.swing.JLabel();
         txtTel = new javax.swing.JFormattedTextField();
         txtCel = new javax.swing.JFormattedTextField();
         btWhatsapp = new javax.swing.JButton();
@@ -199,6 +202,12 @@ public class CadastroCliente extends javax.swing.JFrame {
         lbNome.setForeground(new java.awt.Color(0, 0, 0));
         lbNome.setText("Nome");
 
+        txtNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNomeActionPerformed(evt);
+            }
+        });
+
         lbDoc.setForeground(new java.awt.Color(0, 0, 0));
         lbDoc.setText("DOC.");
 
@@ -232,6 +241,12 @@ public class CadastroCliente extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
+
         lbEmail.setForeground(new java.awt.Color(0, 0, 0));
         lbEmail.setText("E-mail");
 
@@ -245,12 +260,16 @@ public class CadastroCliente extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contato para Recado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 16), new java.awt.Color(255, 0, 0))); // NOI18N
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel17.setText("Nome");
-        jPanel4.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 30));
-        jPanel4.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 640, -1));
-        jPanel4.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 70, 270, -1));
-        jPanel4.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 270, -1));
+        lbNomeRecado.setForeground(new java.awt.Color(0, 0, 0));
+        lbNomeRecado.setText("Nome");
+        jPanel4.add(lbNomeRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 30));
+
+        txtNomeRecado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNomeRecadoActionPerformed(evt);
+            }
+        });
+        jPanel4.add(txtNomeRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 640, -1));
 
         jLabel15.setForeground(new java.awt.Color(0, 0, 0));
         jLabel15.setText("TEL");
@@ -259,6 +278,8 @@ public class CadastroCliente extends javax.swing.JFrame {
         jLabel16.setForeground(new java.awt.Color(0, 0, 0));
         jLabel16.setText("Whatsapp");
         jPanel4.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, 80, 30));
+        jPanel4.add(txtTelRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 270, -1));
+        jPanel4.add(txtCelRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 70, 280, -1));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/new_add_user_16734.png"))); // NOI18N
 
@@ -284,8 +305,8 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
         });
 
-        jLabel18.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel18.setText("Data Nasc.");
+        lbDataNasc.setForeground(new java.awt.Color(0, 0, 0));
+        lbDataNasc.setText("Data Nasc.");
 
         txtTel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -363,7 +384,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(cboTipoDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(9, 9, 9)
-                                        .addComponent(jLabel18)
+                                        .addComponent(lbDataNasc)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jdcDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(painelDadosClientesLayout.createSequentialGroup()
@@ -401,7 +422,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                                     .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(lbDoc)
                                         .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel18))))
+                                        .addComponent(lbDataNasc))))
                             .addComponent(jdcDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -746,6 +767,7 @@ public class CadastroCliente extends javax.swing.JFrame {
     private void txtCelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCelActionPerformed
         // TODO add your handling code here:
         String celular = txtCel.getText();
+
         Telefone validarCel = new Telefone();
         boolean cel = validarCel.validarTelefone(celular);
         if (cel == true) {
@@ -782,9 +804,50 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void txtCelKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCelKeyTyped
         // TODO add your handling code here:
+        String cel = txtCel.getText();
+        Telefone validarCel = new Telefone();
+        boolean teste = validarCel.validarTelefone(cel);    
+        cel = cel.replace("(", "");
+        cel = cel.replace(")", "");
+        cel = cel.replace("-", "");
+        cel = cel.trim();
+        if (cel.length() == 11 && teste== true) {
+          btWhatsapp.setEnabled(true);
+        }  if (cel.length() < 11) {
+            btWhatsapp.setEnabled(false);
+        }
+        
         BloqueiaLetrasEnumeros bloqueioLetras = new BloqueiaLetrasEnumeros();
         bloqueioLetras.bloqueiaLetras(evt);
     }//GEN-LAST:event_txtCelKeyTyped
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+        Email validarEmail = new Email();
+        boolean email = validarEmail.isValidEmailAddress(txtEmail.getText());
+        if (email == true) {
+            JOptionPane.showMessageDialog(null, "Email Valido", "Email", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Email invalido", "Email", JOptionPane.ERROR_MESSAGE);
+
+        }
+    }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
+        // TODO add your handling code here:
+        TratarTexto texto = new TratarTexto();
+        String textoValido = txtNome.getText();
+        texto.validarNome(textoValido);
+
+    }//GEN-LAST:event_txtNomeActionPerformed
+
+    private void txtNomeRecadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeRecadoActionPerformed
+        // TODO add your handling code here:
+
+        TratarTexto texto = new TratarTexto();
+        String textoValido = txtNomeRecado.getText();
+        texto.validarNome(textoValido);
+    }//GEN-LAST:event_txtNomeRecadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -855,8 +918,6 @@ public class CadastroCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -870,14 +931,13 @@ public class CadastroCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private com.toedter.calendar.JDateChooser jdcDataNasc;
     private javax.swing.JLabel lbCodigo;
+    private javax.swing.JLabel lbDataNasc;
     private javax.swing.JLabel lbDoc;
     private javax.swing.JLabel lbEmail;
     private javax.swing.JLabel lbNome;
+    private javax.swing.JLabel lbNomeRecado;
     private javax.swing.JLabel lbTelFixo;
     private javax.swing.JLabel lbWhatsapp;
     private javax.swing.JTabbedPane painelAbasClientes;
@@ -891,6 +951,7 @@ public class CadastroCliente extends javax.swing.JFrame {
     private javax.swing.JRadioButton selecGravar;
     private javax.swing.JTextField txtBairro;
     private javax.swing.JFormattedTextField txtCel;
+    private javax.swing.JFormattedTextField txtCelRecado;
     private javax.swing.JFormattedTextField txtCep;
     private javax.swing.JTextField txtCidade;
     private javax.swing.JTextField txtCodigo;
@@ -899,9 +960,11 @@ public class CadastroCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEndereco;
     private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtNomeRecado;
     private javax.swing.JTextField txtNumResidencia;
     private javax.swing.JTextArea txtPontoReferencia;
     private javax.swing.JFormattedTextField txtTel;
+    private javax.swing.JFormattedTextField txtTelRecado;
     private javax.swing.JTextField txtUf;
     // End of variables declaration//GEN-END:variables
 }
