@@ -622,6 +622,7 @@
                     </Component>
                     <Component class="javax.swing.JFormattedTextField" name="txtTel">
                       <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtTelMouseClicked"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtTelActionPerformed"/>
                         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTelKeyTyped"/>
                       </Events>
@@ -742,6 +743,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtBairro">
                       <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtBairroActionPerformed"/>
                         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtBairroKeyTyped"/>
                       </Events>
                       <Constraints>

@@ -6,6 +6,7 @@
 package br.com.mcaj.gui;
 
 import br.com.mcaj.metodos.BloqueiaLetrasEnumeros;
+import br.com.mcaj.metodos.LimitaCaracteres;
 import br.com.mcaj.metodos.MascarasDeCampo;
 import br.com.mcaj.metodos.MetodosCadClientes;
 import br.com.mcaj.metodos.TratarTexto;
@@ -42,6 +43,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         mascararCampos();
         txtCpf.setEnabled(false);
         btWhatsapp.setEnabled(false);
+        configuracoesDeCampo();
 
     }
 
@@ -338,6 +340,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         lbDataNasc.setForeground(new java.awt.Color(0, 0, 0));
         lbDataNasc.setText("Data Nasc.");
 
+        txtTel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtTelMouseClicked(evt);
+            }
+        });
         txtTel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTelActionPerformed(evt);
@@ -524,6 +531,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         });
         painelDeEndereco.add(txtCidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 98, 491, -1));
 
+        txtBairro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBairroActionPerformed(evt);
+            }
+        });
         txtBairro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtBairroKeyTyped(evt);
@@ -752,7 +764,7 @@ public class CadastroCliente extends javax.swing.JFrame {
 
             } else {
                 JOptionPane.showMessageDialog(null, "CNPJ Invalido!!!", "Erro no CNPJ", JOptionPane.ERROR_MESSAGE);
-                     txtCpf.setValue("");
+                txtCpf.setValue("");
             }
 
         } else if (cboTipoDoc.getSelectedIndex() == 4) {
@@ -762,7 +774,18 @@ public class CadastroCliente extends javax.swing.JFrame {
 
             } else {
                 JOptionPane.showMessageDialog(null, "CNH Invalido!!!", "Erro na CNH", JOptionPane.ERROR_MESSAGE);
-                 txtCpf.setValue("");
+                txtCpf.setValue("");
+            }
+
+        } else if (cboTipoDoc.getSelectedIndex() == 3) {
+
+            RG rg = new RG(cpf, true);
+            boolean vRG = rg.checkRG(cpf);
+            if (vRG == true) {
+
+            } else {
+                JOptionPane.showMessageDialog(null, "RG Invalido!!!", "Erro na RG", JOptionPane.ERROR_MESSAGE);
+                txtCpf.setValue("");
             }
 
         }
@@ -987,11 +1010,11 @@ public class CadastroCliente extends javax.swing.JFrame {
             String email = txtEmail.getText();
             String Link = "mailto:" + email;
             System.out.println(Link);
-            if(email.equals("")){
-             JOptionPane.showMessageDialog(null, "Não posso abrir o Gerenciador de e-mail", "Campo de Email Vazio", JOptionPane.ERROR_MESSAGE);
-            }else{
-            MetodosCadClientes app = new MetodosCadClientes();
-            app.AbrirWhatsWeb(Link);
+            if (email.equals("")) {
+                JOptionPane.showMessageDialog(null, "Não posso abrir o Gerenciador de e-mail", "Campo de Email Vazio", JOptionPane.ERROR_MESSAGE);
+            } else {
+                MetodosCadClientes app = new MetodosCadClientes();
+                app.AbrirWhatsWeb(Link);
             }
         }
     }//GEN-LAST:event_txtEmailMouseClicked
@@ -1005,8 +1028,8 @@ public class CadastroCliente extends javax.swing.JFrame {
     private void txtEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnderecoActionPerformed
         // TODO add your handling code here:
         TratarTexto texto = new TratarTexto();
-        String textoValido = txtNome.getText();
-        texto.validarNome(textoValido);
+        String textoValido = txtEndereco.getText();
+        texto.validarRua(textoValido);
 
     }//GEN-LAST:event_txtEnderecoActionPerformed
 
@@ -1024,6 +1047,9 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void txtCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCidadeActionPerformed
         // TODO add your handling code here:
+        TratarTexto texto = new TratarTexto();
+        String textoValido = txtCidade.getText();
+        texto.validarNome(textoValido);
     }//GEN-LAST:event_txtCidadeActionPerformed
 
     private void txtCidadeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCidadeKeyTyped
@@ -1055,6 +1081,35 @@ public class CadastroCliente extends javax.swing.JFrame {
         BloqueiaLetrasEnumeros bloqueioNumeros = new BloqueiaLetrasEnumeros();
         bloqueioNumeros.bloqueiaCE(evt);
     }//GEN-LAST:event_txtPontoReferenciaKeyTyped
+
+    private void txtBairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBairroActionPerformed
+        // TODO add your handling code here:
+        TratarTexto texto = new TratarTexto();
+        String textoValido = txtBairro.getText();
+        texto.validarNome(textoValido);
+    }//GEN-LAST:event_txtBairroActionPerformed
+
+    private void txtTelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTelMouseClicked
+        // TODO add your handling code here:
+  if (evt.getClickCount() == 2) {
+            String tel = txtTel.getText();
+
+            tel = tel.replace("(", "");
+            tel = tel.replace(")", "");
+            tel = tel.replace("-", "");
+            tel = tel.trim();
+
+            if (tel.equals("")) {
+                JOptionPane.showMessageDialog(null, "Whatsapp Invalido!!! ", "Erro no Whatsapp", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else {
+                String whats = "tel:" + tel;
+                System.out.println(whats);
+                MetodosCadClientes app = new MetodosCadClientes();
+                app.AbrirWhatsWeb(whats);
+            }
+        }
+    }//GEN-LAST:event_txtTelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1116,6 +1171,18 @@ public class CadastroCliente extends javax.swing.JFrame {
         }
     }
 
+    public void configuracoesDeCampo() {
+        txtNome.setDocument(new LimitaCaracteres(120, LimitaCaracteres.TipoEntrada.NOME));
+        txtNomeRecado.setDocument(new LimitaCaracteres(113, LimitaCaracteres.TipoEntrada.NOME));
+        txtEmail.setDocument(new LimitaCaracteres(90, LimitaCaracteres.TipoEntrada.EMAIL));
+        txtEndereco.setDocument(new LimitaCaracteres(70, LimitaCaracteres.TipoEntrada.NOME));
+        txtBairro.setDocument(new LimitaCaracteres(70, LimitaCaracteres.TipoEntrada.NOME));
+        txtCidade.setDocument(new LimitaCaracteres(70, LimitaCaracteres.TipoEntrada.NOME));
+        txtComplemento.setDocument(new LimitaCaracteres(70, LimitaCaracteres.TipoEntrada.NOME));
+        txtNumResidencia.setDocument(new LimitaCaracteres(14, LimitaCaracteres.TipoEntrada.NOME));
+        txtUf.setDocument(new LimitaCaracteres(2, LimitaCaracteres.TipoEntrada.NOME));
+        txtPontoReferencia.setDocument(new LimitaCaracteres(450, LimitaCaracteres.TipoEntrada.REFERENCIA));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btBuscar;
