@@ -5,6 +5,7 @@
  */
 package br.com.mcaj.webservice;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -14,9 +15,9 @@ import javax.swing.JTextField;
  */
 public class BuscarCep {
 
-    public void buscarCep(JTextField cep, JTextField endereco, JTextField cidade, JTextField bairro, JTextField uf) {
+    public void buscarCep(JFormattedTextField cep, JTextField endereco, JTextField cidade, JTextField bairro, JTextField uf) {
         // Faz a busca para o cep 58043-280
-        WebServiceCep webServiceCep = WebServiceCep.searchCep(cep.getText());
+        WebServiceCep webServiceCep = WebServiceCep.searchCep(cep.getText().replace("-",""));
 		// A ferramenta de busca ignora qualquer caracter que n?o seja n?mero.
 
         // caso a busca ocorra bem, imprime os resultados.

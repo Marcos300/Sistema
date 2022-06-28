@@ -43,4 +43,24 @@ public class MetodosCadClientes {
               app.AbrirWhatsWeb(whats);
           }            
     }
+    
+    
+    //não funciona
+    public void abrirTel(JTextField txtTel){
+            String tel = txtTel.getText();  
+            tel = tel.replace("(","");
+            tel = tel.replace(")","");
+            tel = tel.replace("-","");
+            tel = tel.trim();
+            
+          if (tel.equals("")) {
+              JOptionPane.showMessageDialog(null, "Tel Invalido!!! ","Erro no Tel",JOptionPane.ERROR_MESSAGE);
+              return;
+          }else {
+              String abrirTel =  "tel:"+tel;
+              System.out.println(abrirTel);
+              MetodosCadClientes app = new MetodosCadClientes();
+              app.AbrirWhatsWeb(abrirTel);
+          }            
+    }
 }
