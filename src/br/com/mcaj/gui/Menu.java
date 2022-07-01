@@ -34,7 +34,7 @@ private JLabel pessoa;
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbLogoEmpresa = new javax.swing.JLabel();
         barraDeMenu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         MnuItemProduto = new javax.swing.JMenu();
@@ -56,9 +56,15 @@ private JLabel pessoa;
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
 
-        jLabel1.setBackground(new java.awt.Color(204, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/logo.png"))); // NOI18N
-        jPanel2.add(jLabel1);
+        lbLogoEmpresa.setBackground(new java.awt.Color(204, 255, 255));
+        lbLogoEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/logo.png"))); // NOI18N
+        lbLogoEmpresa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbLogoEmpresa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbLogoEmpresaMouseClicked(evt);
+            }
+        });
+        jPanel2.add(lbLogoEmpresa);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -171,6 +177,10 @@ private JLabel pessoa;
         app.setVisible(true);
     }//GEN-LAST:event_imnuClienteNActionPerformed
 
+    private void lbLogoEmpresaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLogoEmpresaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbLogoEmpresaMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -244,7 +254,6 @@ private JLabel pessoa;
     private javax.swing.JMenuItem imnuClienteN;
     private javax.swing.JMenuItem itemMenuCadLote;
     private javax.swing.JMenuItem itemMenuCadNormal;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -253,6 +262,7 @@ private JLabel pessoa;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lbLogoEmpresa;
     private javax.swing.JMenu mnuCliente;
     // End of variables declaration//GEN-END:variables
 }

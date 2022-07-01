@@ -42,7 +42,8 @@ public class TakeSnapshotFromVideoExample extends JFrame {
 			try {
 				for (int i = 0; i < webcams.size(); i++) {
 					Webcam webcam = webcams.get(i);
-					File file = new File(String.format("test-%d.jpg", i));
+					//File file = new File(String.format("test-%d.jpg", i));
+                                        File file = new File(String.format("c:\\teste-%d.jpg", i));
 					ImageIO.write(webcam.getImage(), "JPG", file);
 					System.out.format("Image for %s saved in %s \n", webcam.getName(), file);
 				}

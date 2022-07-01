@@ -35,11 +35,11 @@ public class BloqueiaLetrasEnumeros {
     public void bloqueiaCE(KeyEvent evt) {
         // TODO add your handling code here:
         char caracter = evt.getKeyChar();
-            if (((caracter < 'A') || (caracter > 'Z')) && ((caracter < 'a') || (caracter > 'z')) && (caracter != 32)) {
-                 if ((caracter < '0') || (caracter > '9')) {
-            evt.consume();
-                 }
+        if (((caracter < 'A') || (caracter > 'Z')) && ((caracter < 'a') || (caracter > 'z')) && (caracter != 32) && (caracter != 46) && (caracter != 45)) {
+            if ((caracter < '0') || (caracter > '9')) {
+                evt.consume();
             }
         }
+    }
 
 }

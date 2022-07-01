@@ -756,9 +756,6 @@ public class CarregarProdutos extends javax.swing.JFrame {
     }
 
     public void limparRadioSeleção() {
-        selecGrava.setSelected(false);
-        selecAtualiza.setSelected(false);
-        selecDeleta.setSelected(false);
         grupoDeRadiopButton.clearSelection();
         modelo.LimparTabela();
         carregado = false;
@@ -900,5 +897,9 @@ public class CarregarProdutos extends javax.swing.JFrame {
     private javax.swing.JPanel txtBuscar;
     // End of variables declaration//GEN-END:variables
 
- 
+ public void limparTabela(){
+     //modelo.LimparTabela();
+     btConsulta.getModel().setSelected(false);
+     btConsulta.getModel().setSelected(true);
+ }
 }

@@ -11,6 +11,8 @@ import br.com.mcaj.metodos.BloqueiaLetrasEnumeros;
 import br.com.mcaj.metodos.MetodosCadProduto;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 
@@ -111,11 +113,11 @@ public class CadProduto extends javax.swing.JFrame {
         });
 
         painelComandos.setBackground(new java.awt.Color(255, 255, 153));
-        painelComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Comandos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(204, 0, 0))); // NOI18N
+        painelComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Comandos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(204, 0, 0))); // NOI18N
         painelComandos.setLayout(new java.awt.GridLayout(1, 0));
 
         painelDeComandos.setBackground(new java.awt.Color(204, 255, 204));
-        painelDeComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Executar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(204, 0, 0))); // NOI18N
+        painelDeComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Executar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(204, 0, 0))); // NOI18N
 
         btGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/savetheapplication_guardar_2958.png"))); // NOI18N
         btGravar.setText("Gravar");
@@ -149,7 +151,7 @@ public class CadProduto extends javax.swing.JFrame {
         painelComandos.add(painelDeComandos);
 
         jPanel1.setBackground(new java.awt.Color(51, 255, 51));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolher", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(204, 0, 0))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolher", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(204, 0, 0))); // NOI18N
 
         selecGravar.setText("Gravar");
         selecGravar.addActionListener(new java.awt.event.ActionListener() {
@@ -289,6 +291,8 @@ public class CadProduto extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
+        CarregarProdutos app =  new CarregarProdutos();
+        app.limparTabela();
     }//GEN-LAST:event_formWindowClosed
 
     private void selecGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selecGravarActionPerformed

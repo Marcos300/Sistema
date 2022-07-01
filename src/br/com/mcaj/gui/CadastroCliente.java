@@ -5,6 +5,9 @@
  */
 package br.com.mcaj.gui;
 
+import br.com.mcaj.bdimg.ManipularImagem;
+import br.com.mcaj.conexao.BD;
+import br.com.mcaj.dao.DaoCadCliente;
 import br.com.mcaj.metodos.BloqueiaLetrasEnumeros;
 import br.com.mcaj.metodos.LimitaCaracteres;
 import br.com.mcaj.metodos.MascarasDeCampo;
@@ -16,12 +19,18 @@ import br.com.mcaj.validacao.Email;
 import br.com.mcaj.validacao.RG;
 import br.com.mcaj.validacao.Telefone;
 import br.com.mcaj.validacao.ValidarCNH;
+import br.com.mcaj.webcam.TirarFotoDaWebcam;
 import br.com.mcaj.webservice.BuscarCep;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -29,10 +38,14 @@ import javax.swing.JOptionPane;
  */
 public class CadastroCliente extends javax.swing.JFrame {
 
+    private DaoCadCliente cliente;
+    private BD bd;
+
     String mensagemDesejaAtualizar = null;
     String mensagemAtualizados = null;
     String mensagemNãoAtualizar = null;
     String mensagemCancelar = null;
+    BufferedImage imagem;
 
     /**
      * Creates new form CadastroCliente
@@ -44,6 +57,13 @@ public class CadastroCliente extends javax.swing.JFrame {
         txtCpf.setEnabled(false);
         btWhatsapp.setEnabled(false);
         configuracoesDeCampo();
+        cliente = new DaoCadCliente();
+
+        if (!cliente.bd.getConnection()) {
+            JOptionPane.showMessageDialog(null,
+                    "Falha na Conexao, o sistema sera fechada!");
+            System.exit(0);
+        }
 
     }
 
@@ -56,6 +76,7 @@ public class CadastroCliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         selecGravar = new javax.swing.JRadioButton();
@@ -64,10 +85,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         painelDeComandos = new javax.swing.JPanel();
         btGravar = new javax.swing.JButton();
         btDeletar = new javax.swing.JButton();
+        btLimpar = new javax.swing.JButton();
         btCancelar = new javax.swing.JButton();
         painelDoFrame = new javax.swing.JPanel();
         painelAbasClientes = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        painelAbaDados = new javax.swing.JPanel();
         painelDadosClientes = new javax.swing.JPanel();
         lbCodigo = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
@@ -76,6 +98,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         lbDoc = new javax.swing.JLabel();
         txtCpf = new javax.swing.JFormattedTextField();
         jPanel7 = new javax.swing.JPanel();
+        lbFotoCliente = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lbEmail = new javax.swing.JLabel();
         lbTelFixo = new javax.swing.JLabel();
@@ -83,11 +106,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         lbNomeRecado = new javax.swing.JLabel();
         txtNomeRecado = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        lbTelRecado = new javax.swing.JLabel();
+        lbCelRecado = new javax.swing.JLabel();
         txtTelRecado = new javax.swing.JFormattedTextField();
         txtCelRecado = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
+        btNovo = new javax.swing.JButton();
         cboTipoDoc = new javax.swing.JComboBox<>();
         jdcDataNasc = new com.toedter.calendar.JDateChooser();
         lbDataNasc = new javax.swing.JLabel();
@@ -96,26 +119,28 @@ public class CadastroCliente extends javax.swing.JFrame {
         btWhatsapp = new javax.swing.JButton();
         btWebcam = new javax.swing.JButton();
         btBuscar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        btBuscaFoto = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        painelAbaEndereco = new javax.swing.JPanel();
         painelDeEndereco = new javax.swing.JPanel();
         txtEndereco = new javax.swing.JTextField();
         txtCidade = new javax.swing.JTextField();
         txtBairro = new javax.swing.JTextField();
         txtUf = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        lbCep = new javax.swing.JLabel();
+        lbEndereco = new javax.swing.JLabel();
+        lbBairro = new javax.swing.JLabel();
+        lbCidade = new javax.swing.JLabel();
+        lbUf = new javax.swing.JLabel();
+        lbNumResidencia = new javax.swing.JLabel();
         txtNumResidencia = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
+        lbComplemento = new javax.swing.JLabel();
         txtComplemento = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtPontoReferencia = new javax.swing.JTextArea();
-        jLabel11 = new javax.swing.JLabel();
-        panelFotoFaxada = new javax.swing.JPanel();
+        lbReferencia = new javax.swing.JLabel();
+        painelFotoFaxada = new javax.swing.JPanel();
+        lbFotoFaxadaCliente = new javax.swing.JLabel();
         txtCep = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -128,7 +153,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         jPanel5.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel3.setBackground(new java.awt.Color(51, 255, 51));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolher", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(204, 0, 0))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolher", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(204, 0, 0))); // NOI18N
 
         selecGravar.setText("Gravar");
         selecGravar.addActionListener(new java.awt.event.ActionListener() {
@@ -152,7 +177,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         jPanel5.add(jPanel3);
 
         painelDeComandos.setBackground(new java.awt.Color(204, 255, 204));
-        painelDeComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Executar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(204, 0, 0))); // NOI18N
+        painelDeComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Executar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(204, 0, 0))); // NOI18N
 
         btGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/savetheapplication_guardar_2958.png"))); // NOI18N
         btGravar.setText("Gravar");
@@ -172,6 +197,15 @@ public class CadastroCliente extends javax.swing.JFrame {
         });
         painelDeComandos.add(btDeletar);
 
+        btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/1486503744-backspace-clean-clear-delete-remove-erase_81258.png"))); // NOI18N
+        btLimpar.setText("Limpar");
+        btLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLimparActionPerformed(evt);
+            }
+        });
+        painelDeComandos.add(btLimpar);
+
         btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/Cancel_icon-icons.com_73703.png"))); // NOI18N
         btCancelar.setText("Cancelar");
         btCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -188,13 +222,11 @@ public class CadastroCliente extends javax.swing.JFrame {
 
         painelAbasClientes.setBackground(new java.awt.Color(153, 153, 153));
 
-        jPanel1.setBackground(new java.awt.Color(51, 102, 255));
+        painelAbaDados.setBackground(new java.awt.Color(51, 102, 255));
 
         painelDadosClientes.setBackground(new java.awt.Color(153, 153, 153));
         painelDadosClientes.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        painelDadosClientes.setForeground(new java.awt.Color(0, 0, 0));
 
-        lbCodigo.setForeground(new java.awt.Color(0, 0, 0));
         lbCodigo.setText("Codigo");
 
         txtCodigo.setEditable(false);
@@ -204,7 +236,6 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
         });
 
-        lbNome.setForeground(new java.awt.Color(0, 0, 0));
         lbNome.setText("Nome");
 
         txtNome.addActionListener(new java.awt.event.ActionListener() {
@@ -218,7 +249,6 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
         });
 
-        lbDoc.setForeground(new java.awt.Color(0, 0, 0));
         lbDoc.setText("DOC.");
 
         txtCpf.addActionListener(new java.awt.event.ActionListener() {
@@ -240,15 +270,28 @@ public class CadastroCliente extends javax.swing.JFrame {
         jPanel7.setToolTipText("Carregar Foto");
         jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
 
+        lbFotoCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
+        lbFotoCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbFotoClienteMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbFotoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbFotoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         txtEmail.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -262,20 +305,16 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
         });
 
-        lbEmail.setForeground(new java.awt.Color(0, 0, 0));
         lbEmail.setText("E-mail");
 
-        lbTelFixo.setForeground(new java.awt.Color(0, 0, 0));
         lbTelFixo.setText("Fixo");
 
-        lbWhatsapp.setForeground(new java.awt.Color(0, 0, 0));
         lbWhatsapp.setText("Whatsapp");
 
         jPanel4.setBackground(new java.awt.Color(255, 204, 204));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contato para Recado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 16), new java.awt.Color(255, 0, 0))); // NOI18N
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lbNomeRecado.setForeground(new java.awt.Color(0, 0, 0));
         lbNomeRecado.setText("Nome");
         jPanel4.add(lbNomeRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 30));
 
@@ -284,15 +323,13 @@ public class CadastroCliente extends javax.swing.JFrame {
                 txtNomeRecadoActionPerformed(evt);
             }
         });
-        jPanel4.add(txtNomeRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 640, -1));
+        jPanel4.add(txtNomeRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 620, -1));
 
-        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel15.setText("TEL");
-        jPanel4.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 40, 30));
+        lbTelRecado.setText("TEL");
+        jPanel4.add(lbTelRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 40, 30));
 
-        jLabel16.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel16.setText("Whatsapp");
-        jPanel4.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, 80, 30));
+        lbCelRecado.setText("Whatsapp");
+        jPanel4.add(lbCelRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, 80, 30));
 
         txtTelRecado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -311,9 +348,14 @@ public class CadastroCliente extends javax.swing.JFrame {
                 txtCelRecadoActionPerformed(evt);
             }
         });
-        jPanel4.add(txtCelRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 70, 280, -1));
+        jPanel4.add(txtCelRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 70, 260, -1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/new_add_user_16734.png"))); // NOI18N
+        btNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/new_add_user_16734.png"))); // NOI18N
+        btNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btNovoActionPerformed(evt);
+            }
+        });
 
         cboTipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "CPF", "CNPJ", "RG", "CNH" }));
         cboTipoDoc.addActionListener(new java.awt.event.ActionListener() {
@@ -337,7 +379,6 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
         });
 
-        lbDataNasc.setForeground(new java.awt.Color(0, 0, 0));
         lbDataNasc.setText("Data Nasc.");
 
         txtTel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -375,27 +416,46 @@ public class CadastroCliente extends javax.swing.JFrame {
         });
 
         btWebcam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/webcam_cam_camera_10859 (1).png"))); // NOI18N
+        btWebcam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btWebcamActionPerformed(evt);
+            }
+        });
 
         btBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/loupe_magnifying_glass_search_lens_icon_185980.png"))); // NOI18N
 
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Marcos\\Downloads\\gallery_128x128-32_22269.png")); // NOI18N
+        btBuscaFoto.setIcon(new javax.swing.ImageIcon("C:\\Users\\Marcos\\Downloads\\gallery_128x128-32_22269.png")); // NOI18N
+        btBuscaFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBuscaFotoActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Foto ");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout painelDadosClientesLayout = new javax.swing.GroupLayout(painelDadosClientes);
         painelDadosClientes.setLayout(painelDadosClientesLayout);
         painelDadosClientesLayout.setHorizontalGroup(
             painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelDadosClientesLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(painelDadosClientesLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btWebcam, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(19, 19, 19)
+                        .addGap(33, 33, 33)
+                        .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(painelDadosClientesLayout.createSequentialGroup()
+                                .addComponent(btWebcam, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btBuscaFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
                 .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
                     .addGroup(painelDadosClientesLayout.createSequentialGroup()
                         .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbCodigo)
@@ -413,7 +473,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                                     .addGroup(painelDadosClientesLayout.createSequentialGroup()
                                         .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(painelDadosClientesLayout.createSequentialGroup()
@@ -445,7 +505,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                             .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(lbCodigo)
-                                .addComponent(jButton1))
+                                .addComponent(btNovo))
                             .addComponent(btBuscar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -477,31 +537,35 @@ public class CadastroCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btWebcam))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(painelDadosClientesLayout.createSequentialGroup()
+                        .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btBuscaFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btWebcam))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout painelAbaDadosLayout = new javax.swing.GroupLayout(painelAbaDados);
+        painelAbaDados.setLayout(painelAbaDadosLayout);
+        painelAbaDadosLayout.setHorizontalGroup(
+            painelAbaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelAbaDadosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(painelDadosClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        painelAbaDadosLayout.setVerticalGroup(
+            painelAbaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelAbaDadosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(painelDadosClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 357, Short.MAX_VALUE)
+                .addComponent(painelDadosClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        painelAbasClientes.addTab("Dados", jPanel1);
+        painelAbasClientes.addTab("Dados", painelAbaDados);
 
-        jPanel2.setBackground(new java.awt.Color(51, 102, 255));
+        painelAbaEndereco.setBackground(new java.awt.Color(51, 102, 255));
 
         painelDeEndereco.setBackground(new java.awt.Color(153, 153, 153));
         painelDeEndereco.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -550,29 +614,23 @@ public class CadastroCliente extends javax.swing.JFrame {
         });
         painelDeEndereco.add(txtUf, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 168, 60, -1));
 
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("CEP");
-        painelDeEndereco.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 31, -1, -1));
+        lbCep.setText("CEP");
+        painelDeEndereco.add(lbCep, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 31, -1, -1));
 
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("ENDEREÇO");
-        painelDeEndereco.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 66, -1, -1));
+        lbEndereco.setText("ENDEREÇO");
+        painelDeEndereco.add(lbEndereco, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 66, -1, -1));
 
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("BAIRRO");
-        painelDeEndereco.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 101, -1, -1));
+        lbBairro.setText("BAIRRO");
+        painelDeEndereco.add(lbBairro, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 101, -1, -1));
 
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("CIDADE");
-        painelDeEndereco.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 136, -1, -1));
+        lbCidade.setText("CIDADE");
+        painelDeEndereco.add(lbCidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 136, -1, -1));
 
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText("UF");
-        painelDeEndereco.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 171, -1, -1));
+        lbUf.setText("UF");
+        painelDeEndereco.add(lbUf, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 171, -1, -1));
 
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setText("Nº");
-        painelDeEndereco.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, -1, -1));
+        lbNumResidencia.setText("Nº");
+        painelDeEndereco.add(lbNumResidencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, -1, -1));
 
         txtNumResidencia.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -581,9 +639,8 @@ public class CadastroCliente extends javax.swing.JFrame {
         });
         painelDeEndereco.add(txtNumResidencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 113, -1));
 
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setText("Complemento");
-        painelDeEndereco.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 170, -1, -1));
+        lbComplemento.setText("Complemento");
+        painelDeEndereco.add(lbComplemento, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 170, -1, -1));
 
         txtComplemento.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -595,6 +652,8 @@ public class CadastroCliente extends javax.swing.JFrame {
         txtPontoReferencia.setColumns(20);
         txtPontoReferencia.setLineWrap(true);
         txtPontoReferencia.setRows(5);
+        txtPontoReferencia.setName(""); // NOI18N
+        txtPontoReferencia.setSelectionColor(new java.awt.Color(153, 255, 255));
         txtPontoReferencia.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPontoReferenciaKeyTyped(evt);
@@ -604,25 +663,31 @@ public class CadastroCliente extends javax.swing.JFrame {
 
         painelDeEndereco.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 210, 491, -1));
 
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel11.setText("Ref.");
-        painelDeEndereco.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 210, -1, -1));
+        lbReferencia.setText("Ref.");
+        painelDeEndereco.add(lbReferencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 210, -1, -1));
 
-        panelFotoFaxada.setBorder(javax.swing.BorderFactory.createTitledBorder("Foto da Faxada"));
-        panelFotoFaxada.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
+        painelFotoFaxada.setBorder(javax.swing.BorderFactory.createTitledBorder("Foto da Faxada"));
+        painelFotoFaxada.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
 
-        javax.swing.GroupLayout panelFotoFaxadaLayout = new javax.swing.GroupLayout(panelFotoFaxada);
-        panelFotoFaxada.setLayout(panelFotoFaxadaLayout);
-        panelFotoFaxadaLayout.setHorizontalGroup(
-            panelFotoFaxadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 278, Short.MAX_VALUE)
+        lbFotoFaxadaCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
+        lbFotoFaxadaCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbFotoFaxadaClienteMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout painelFotoFaxadaLayout = new javax.swing.GroupLayout(painelFotoFaxada);
+        painelFotoFaxada.setLayout(painelFotoFaxadaLayout);
+        painelFotoFaxadaLayout.setHorizontalGroup(
+            painelFotoFaxadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lbFotoFaxadaCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
         );
-        panelFotoFaxadaLayout.setVerticalGroup(
-            panelFotoFaxadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 222, Short.MAX_VALUE)
+        painelFotoFaxadaLayout.setVerticalGroup(
+            painelFotoFaxadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lbFotoFaxadaCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
         );
 
-        painelDeEndereco.add(panelFotoFaxada, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 60, 290, 250));
+        painelDeEndereco.add(painelFotoFaxada, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 60, 350, 250));
 
         txtCep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -631,24 +696,24 @@ public class CadastroCliente extends javax.swing.JFrame {
         });
         painelDeEndereco.add(txtCep, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 140, -1));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout painelAbaEnderecoLayout = new javax.swing.GroupLayout(painelAbaEndereco);
+        painelAbaEndereco.setLayout(painelAbaEnderecoLayout);
+        painelAbaEnderecoLayout.setHorizontalGroup(
+            painelAbaEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelAbaEnderecoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(painelDeEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        painelAbaEnderecoLayout.setVerticalGroup(
+            painelAbaEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelAbaEnderecoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(painelDeEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        painelAbasClientes.addTab("Endereço", jPanel2);
+        painelAbasClientes.addTab("Endereço", painelAbaEndereco);
 
         javax.swing.GroupLayout painelDoFrameLayout = new javax.swing.GroupLayout(painelDoFrame);
         painelDoFrame.setLayout(painelDoFrameLayout);
@@ -1006,15 +1071,23 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void txtEmailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtEmailMouseClicked
         // TODO add your handling code here:
+        Email validarEmail = new Email();
+        boolean vemail = validarEmail.isValidEmailAddress(txtEmail.getText());
         if (evt.getClickCount() == 2) {
-            String email = txtEmail.getText();
-            String Link = "mailto:" + email;
-            System.out.println(Link);
-            if (email.equals("")) {
-                JOptionPane.showMessageDialog(null, "Não posso abrir o Gerenciador de e-mail", "Campo de Email Vazio", JOptionPane.ERROR_MESSAGE);
+
+            if (vemail == true) {
+
+                String email = txtEmail.getText();
+                String Link = "mailto:" + email;
+                System.out.println(Link);
+                if (email.equals("")) {
+                    JOptionPane.showMessageDialog(null, "Não posso abrir o Gerenciador de e-mail", "Campo de Email Vazio", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    MetodosCadClientes app = new MetodosCadClientes();
+                    app.AbrirWhatsWeb(Link);
+                }
             } else {
-                MetodosCadClientes app = new MetodosCadClientes();
-                app.AbrirWhatsWeb(Link);
+                JOptionPane.showMessageDialog(null, "Esse email não é valido", "Email Invalido", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_txtEmailMouseClicked
@@ -1091,7 +1164,7 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void txtTelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTelMouseClicked
         // TODO add your handling code here:
-  if (evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 2) {
             String tel = txtTel.getText();
 
             tel = tel.replace("(", "");
@@ -1110,6 +1183,91 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_txtTelMouseClicked
+
+    private void btWebcamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btWebcamActionPerformed
+        // TODO add your handling code here:
+
+        TirarFotoDaWebcam app = new TirarFotoDaWebcam();
+        app.setVisible(true);
+
+
+    }//GEN-LAST:event_btWebcamActionPerformed
+
+    private void btBuscaFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscaFotoActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Escolha a Foto: ");
+        fc.setFileFilter(new FileNameExtensionFilter("Arquivo(.jpg | .png)",
+                "jpg", "png"));
+        fc.setAcceptAllFileFilterUsed(false);
+        int res = fc.showOpenDialog(null);
+
+        if (res == JFileChooser.APPROVE_OPTION) {
+            File arquivo = fc.getSelectedFile();
+
+            try {
+                imagem = ManipularImagem.setImagemDimensao(arquivo.getAbsolutePath(), 150, 200);
+
+                lbFotoCliente.setIcon(new ImageIcon(imagem));
+
+            } catch (Exception ex) {
+                // System.out.println(ex.printStackTrace().toString());
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Voce nao selecionou nenhum arquivo.");
+        }
+    }//GEN-LAST:event_btBuscaFotoActionPerformed
+
+    private void lbFotoFaxadaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbFotoFaxadaClienteMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            lbFotoFaxadaCliente.setIcon(null);
+            JFileChooser fc = new JFileChooser();
+            fc.setDialogTitle("Escolha a Foto: ");
+            fc.setFileFilter(new FileNameExtensionFilter("Arquivo(.jpg | .png)",
+                    "jpg", "png"));
+            fc.setAcceptAllFileFilterUsed(false);
+            int res = fc.showOpenDialog(null);
+
+            if (res == JFileChooser.APPROVE_OPTION) {
+                File arquivo = fc.getSelectedFile();
+
+                try {
+                    imagem = ManipularImagem.setImagemDimensao(arquivo.getAbsolutePath(), 320, 200);
+
+                    lbFotoFaxadaCliente.setIcon(new ImageIcon(imagem));
+
+                } catch (Exception ex) {
+                    // System.out.println(ex.printStackTrace().toString());
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Voce nao selecionou nenhum arquivo.");
+            }
+        }
+    }//GEN-LAST:event_lbFotoFaxadaClienteMouseClicked
+
+    private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
+        // TODO add your handling code here:
+        lbFotoCliente.setIcon(null);
+        lbFotoFaxadaCliente.setIcon(null);
+    }//GEN-LAST:event_btLimparActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        RecebeInformacao();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void lbFotoClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbFotoClienteMouseClicked
+        // TODO add your handling code here:
+        lbFotoCliente.setIcon(null);
+    }//GEN-LAST:event_lbFotoClienteMouseClicked
+
+    private void btNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoActionPerformed
+        // TODO add your handling code here:
+        novoCodigo();
+    }//GEN-LAST:event_btNovoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1184,48 +1342,67 @@ public class CadastroCliente extends javax.swing.JFrame {
         txtPontoReferencia.setDocument(new LimitaCaracteres(450, LimitaCaracteres.TipoEntrada.REFERENCIA));
     }
 
+    public void RecebeInformacao() {
+        String caminhoabsoluto = "C:\\test-0.jpg";
+
+        try {
+            imagem = ManipularImagem.setImagemDimensao(caminhoabsoluto, 140, 200);
+
+            lbFotoCliente.setIcon(new ImageIcon(imagem));
+
+        } catch (Exception ex) {
+            // System.out.println(ex.printStackTrace().toString());
+        }
+
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btBuscaFoto;
     private javax.swing.JButton btBuscar;
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btDeletar;
     private javax.swing.JButton btGravar;
+    private javax.swing.JButton btLimpar;
+    private javax.swing.JButton btNovo;
     private javax.swing.JButton btWebcam;
     private javax.swing.JButton btWhatsapp;
     private javax.swing.JComboBox<String> cboTipoDoc;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private com.toedter.calendar.JDateChooser jdcDataNasc;
+    private javax.swing.JLabel lbBairro;
+    private javax.swing.JLabel lbCelRecado;
+    private javax.swing.JLabel lbCep;
+    private javax.swing.JLabel lbCidade;
     private javax.swing.JLabel lbCodigo;
+    private javax.swing.JLabel lbComplemento;
     private javax.swing.JLabel lbDataNasc;
     private javax.swing.JLabel lbDoc;
     private javax.swing.JLabel lbEmail;
+    private javax.swing.JLabel lbEndereco;
+    private javax.swing.JLabel lbFotoCliente;
+    private javax.swing.JLabel lbFotoFaxadaCliente;
     private javax.swing.JLabel lbNome;
     private javax.swing.JLabel lbNomeRecado;
+    private javax.swing.JLabel lbNumResidencia;
+    private javax.swing.JLabel lbReferencia;
     private javax.swing.JLabel lbTelFixo;
+    private javax.swing.JLabel lbTelRecado;
+    private javax.swing.JLabel lbUf;
     private javax.swing.JLabel lbWhatsapp;
+    private javax.swing.JPanel painelAbaDados;
+    private javax.swing.JPanel painelAbaEndereco;
     private javax.swing.JTabbedPane painelAbasClientes;
     private javax.swing.JPanel painelDadosClientes;
     private javax.swing.JPanel painelDeComandos;
     private javax.swing.JPanel painelDeEndereco;
     private javax.swing.JPanel painelDoFrame;
-    private javax.swing.JPanel panelFotoFaxada;
+    private javax.swing.JPanel painelFotoFaxada;
     private javax.swing.JRadioButton selecAtualizar;
     private javax.swing.JRadioButton selecDeletar;
     private javax.swing.JRadioButton selecGravar;
@@ -1247,4 +1424,16 @@ public class CadastroCliente extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtTelRecado;
     private javax.swing.JTextField txtUf;
     // End of variables declaration//GEN-END:variables
-}
+
+    public void novoCodigo() {
+        int codigo;
+        codigo = cliente.getProximoCodigo();
+        String cod = String.valueOf(codigo);
+        if (cod.equals("0")) {
+            cod = "1";
+            txtCodigo.setText(cod);
+        } else {
+            txtCodigo.setText(cod);
+        }
+    }
+}//fim da classe
