@@ -107,8 +107,8 @@ public class BeanCliente implements Serializable{
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setDataNascimento(Date date) {
+        this.dataNascimento = date;
     }
 
     public String getEmail() {

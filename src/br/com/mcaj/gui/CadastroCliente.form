@@ -309,15 +309,6 @@
                                                       <Component id="btBuscar" min="-2" pref="54" max="-2" attributes="0"/>
                                                   </Group>
                                                   <Group type="102" alignment="0" attributes="0">
-                                                      <Component id="txtCpf" min="-2" pref="177" max="-2" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="cboTipoDoc" min="-2" pref="106" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                                                      <Component id="lbDataNasc" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="jdcDataNasc" min="-2" pref="148" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Group type="102" alignment="0" attributes="0">
                                                       <Component id="txtTel" min="-2" pref="179" max="-2" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
                                                       <Component id="lbWhatsapp" min="-2" pref="69" max="-2" attributes="0"/>
@@ -326,8 +317,17 @@
                                                       <EmptySpace max="-2" attributes="0"/>
                                                       <Component id="btWhatsapp" min="-2" pref="44" max="-2" attributes="0"/>
                                                   </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <Component id="txtCpf" min="-2" pref="177" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="cboTipoDoc" min="-2" pref="106" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                                                      <Component id="lbDataNasc" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="jdcDataNasc" min="-2" pref="148" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                              <EmptySpace min="0" pref="230" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -351,23 +351,21 @@
                                           <Component id="btBuscar" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="txtNome" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lbNome" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="cboTipoDoc" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
+                                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                              <Component id="jdcDataNasc" min="-2" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="3" attributes="0">
-                                                  <Component id="txtNome" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lbNome" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="cboTipoDoc" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="3" attributes="0">
-                                                      <Component id="lbDoc" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="txtCpf" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="lbDataNasc" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
+                                                  <Component id="lbDoc" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="txtCpf" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lbDataNasc" alignment="3" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <Component id="jdcDataNasc" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
@@ -857,6 +855,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtNumResidencia">
                       <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNumResidenciaActionPerformed"/>
                         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNumResidenciaKeyTyped"/>
                       </Events>
                       <Constraints>

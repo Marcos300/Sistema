@@ -6,12 +6,14 @@
 package br.com.mcaj.gui;
 
 import br.com.mcaj.bdimg.ManipularImagem;
+import br.com.mcaj.bean.BeanCliente;
 import br.com.mcaj.conexao.BD;
 import br.com.mcaj.dao.DaoCadCliente;
 import br.com.mcaj.metodos.BloqueiaLetrasEnumeros;
 import br.com.mcaj.metodos.LimitaCaracteres;
 import br.com.mcaj.metodos.MascarasDeCampo;
 import br.com.mcaj.metodos.MetodosCadClientes;
+import br.com.mcaj.metodos.TratamentoData;
 import br.com.mcaj.metodos.TratarTexto;
 import br.com.mcaj.validacao.CNPJ;
 import br.com.mcaj.validacao.CPF;
@@ -23,7 +25,10 @@ import br.com.mcaj.webcam.TirarFotoDaWebcam;
 import br.com.mcaj.webservice.BuscarCep;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
@@ -41,11 +46,12 @@ public class CadastroCliente extends javax.swing.JFrame {
     private DaoCadCliente cliente;
     private BD bd;
 
-    String mensagemDesejaAtualizar = null;
-    String mensagemAtualizados = null;
-    String mensagemNãoAtualizar = null;
-    String mensagemCancelar = null;
-    BufferedImage imagem;
+    private String mensagemDesejaAtualizar = null;
+    private String mensagemAtualizados = null;
+    private String mensagemNãoAtualizar = null;
+    private String mensagemCancelar = null;
+    private BufferedImage imagemCliente = null;
+    private BufferedImage imagemFaxadaCliente = null;
 
     /**
      * Creates new form CadastroCliente
@@ -477,22 +483,22 @@ public class CadastroCliente extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(painelDadosClientesLayout.createSequentialGroup()
-                                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cboTipoDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(9, 9, 9)
-                                        .addComponent(lbDataNasc)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jdcDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(painelDadosClientesLayout.createSequentialGroup()
                                         .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(lbWhatsapp, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(txtCel, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btWhatsapp, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                        .addComponent(btWhatsapp, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(painelDadosClientesLayout.createSequentialGroup()
+                                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cboTipoDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(9, 9, 9)
+                                        .addComponent(lbDataNasc)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jdcDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 230, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         painelDadosClientesLayout.setVerticalGroup(
@@ -508,19 +514,18 @@ public class CadastroCliente extends javax.swing.JFrame {
                                 .addComponent(btNovo))
                             .addComponent(btBuscar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(painelDadosClientesLayout.createSequentialGroup()
+                        .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbNome))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cboTipoDoc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jdcDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbNome))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cboTipoDoc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(lbDoc)
-                                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lbDataNasc))))
-                            .addComponent(jdcDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lbDoc)
+                                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbDataNasc))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -632,6 +637,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         lbNumResidencia.setText("Nº");
         painelDeEndereco.add(lbNumResidencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, -1, -1));
 
+        txtNumResidencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNumResidenciaActionPerformed(evt);
+            }
+        });
         txtNumResidencia.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNumResidenciaKeyTyped(evt);
@@ -754,7 +764,13 @@ public class CadastroCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGravarActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            Gravar();
+        } catch (SQLException ex) {
+            Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog(null, "Gravado!!!","Dados Enviados para o Banco de Dados",JOptionPane.INFORMATION_MESSAGE );
 
     }//GEN-LAST:event_btGravarActionPerformed
 
@@ -1139,7 +1155,7 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void txtNumResidenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumResidenciaKeyTyped
         // TODO add your handling code here:
-        BloqueiaLetrasEnumeros bloqueioNumeros = new BloqueiaLetrasEnumeros();
+       BloqueiaLetrasEnumeros bloqueioNumeros = new BloqueiaLetrasEnumeros();
         bloqueioNumeros.bloqueiaCE(evt);
     }//GEN-LAST:event_txtNumResidenciaKeyTyped
 
@@ -1206,9 +1222,9 @@ public class CadastroCliente extends javax.swing.JFrame {
             File arquivo = fc.getSelectedFile();
 
             try {
-                imagem = ManipularImagem.setImagemDimensao(arquivo.getAbsolutePath(), 150, 200);
+                imagemCliente = ManipularImagem.setImagemDimensao(arquivo.getAbsolutePath(), 150, 200);
 
-                lbFotoCliente.setIcon(new ImageIcon(imagem));
+                lbFotoCliente.setIcon(new ImageIcon(imagemCliente));
 
             } catch (Exception ex) {
                 // System.out.println(ex.printStackTrace().toString());
@@ -1234,9 +1250,9 @@ public class CadastroCliente extends javax.swing.JFrame {
                 File arquivo = fc.getSelectedFile();
 
                 try {
-                    imagem = ManipularImagem.setImagemDimensao(arquivo.getAbsolutePath(), 320, 200);
+                    imagemFaxadaCliente = ManipularImagem.setImagemDimensao(arquivo.getAbsolutePath(), 320, 200);
 
-                    lbFotoFaxadaCliente.setIcon(new ImageIcon(imagem));
+                    lbFotoFaxadaCliente.setIcon(new ImageIcon(imagemFaxadaCliente));
 
                 } catch (Exception ex) {
                     // System.out.println(ex.printStackTrace().toString());
@@ -1265,9 +1281,17 @@ public class CadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_lbFotoClienteMouseClicked
 
     private void btNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoActionPerformed
-        // TODO add your handling code here:
-        novoCodigo();
+        try {
+            // TODO add your handling code here:
+            novoCodigo();
+        } catch (SQLException ex) {
+            Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btNovoActionPerformed
+
+    private void txtNumResidenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumResidenciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumResidenciaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1336,22 +1360,22 @@ public class CadastroCliente extends javax.swing.JFrame {
         txtEndereco.setDocument(new LimitaCaracteres(70, LimitaCaracteres.TipoEntrada.NOME));
         txtBairro.setDocument(new LimitaCaracteres(70, LimitaCaracteres.TipoEntrada.NOME));
         txtCidade.setDocument(new LimitaCaracteres(70, LimitaCaracteres.TipoEntrada.NOME));
-        txtComplemento.setDocument(new LimitaCaracteres(70, LimitaCaracteres.TipoEntrada.NOME));
-        txtNumResidencia.setDocument(new LimitaCaracteres(14, LimitaCaracteres.TipoEntrada.NOME));
+        txtComplemento.setDocument(new LimitaCaracteres(70, LimitaCaracteres.TipoEntrada.REFERENCIA));
+        txtNumResidencia.setDocument(new LimitaCaracteres(14, LimitaCaracteres.TipoEntrada.REFERENCIA));
         txtUf.setDocument(new LimitaCaracteres(2, LimitaCaracteres.TipoEntrada.NOME));
-        txtPontoReferencia.setDocument(new LimitaCaracteres(450, LimitaCaracteres.TipoEntrada.REFERENCIA));
+        txtPontoReferencia.setDocument(new LimitaCaracteres(350, LimitaCaracteres.TipoEntrada.REFERENCIA));
     }
 
     public void RecebeInformacao() {
         String caminhoabsoluto = "C:\\test-0.jpg";
 
         try {
-            imagem = ManipularImagem.setImagemDimensao(caminhoabsoluto, 140, 200);
+            imagemCliente = ManipularImagem.setImagemDimensao(caminhoabsoluto, 140, 200);
 
-            lbFotoCliente.setIcon(new ImageIcon(imagem));
+            lbFotoCliente.setIcon(new ImageIcon(imagemCliente));
 
         } catch (Exception ex) {
-            // System.out.println(ex.printStackTrace().toString());
+            ex.printStackTrace();
         }
 
     }
@@ -1425,7 +1449,8 @@ public class CadastroCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtUf;
     // End of variables declaration//GEN-END:variables
 
-    public void novoCodigo() {
+    //BANCO DE DADOSÇ
+    public void novoCodigo() throws SQLException {
         int codigo;
         codigo = cliente.getProximoCodigo();
         String cod = String.valueOf(codigo);
@@ -1436,4 +1461,82 @@ public class CadastroCliente extends javax.swing.JFrame {
             txtCodigo.setText(cod);
         }
     }
+
+    public void Gravar() throws SQLException {
+
+        DaoCadCliente dao = new DaoCadCliente();
+        BeanCliente bean = new BeanCliente();
+
+        bean.setCodigo(Integer.parseInt(txtCodigo.getText()));
+        if(imagemCliente != null){
+        bean.setImgCliente(ManipularImagem.getImgBytes(imagemCliente));
+        }
+        bean.setNome(txtNome.getText());
+        bean.setDocumento(txtCpf.getText());
+        bean.setTipoDocumento(cboTipoDoc.getSelectedItem().toString());
+        TratamentoData trataData = new TratamentoData();
+        bean.setDataNascimento(trataData.getSqlDate(jdcDataNasc.getDate()));
+        bean.setEmail(txtEmail.getText());
+        bean.setTel(txtTel.getText());
+        bean.setCel(txtCel.getText());
+        bean.setNomeRecado(txtNomeRecado.getText());
+        bean.setTelRecado(txtTelRecado.getText());
+        bean.setCelRecado(txtCelRecado.getText());
+        bean.setCep(txtCep.getText());
+        bean.setEndereco(txtEndereco.getText());
+        bean.setBairro(txtBairro.getText());
+        bean.setCidade(txtCidade.getText());
+        bean.setUf(txtUf.getText());
+        bean.setNumResidencia(txtNumResidencia.getText());
+        bean.setComplemento(txtComplemento.getText());
+        bean.setReferencia(txtPontoReferencia.getText());
+        if(imagemFaxadaCliente !=null){
+        bean.setFotoFaxadaCliente(ManipularImagem.getImgBytes(imagemFaxadaCliente));
+        }
+        dao.inserir(bean);
+    }
+
+    public void Atualizar() throws SQLException {
+        DaoCadCliente dao = new DaoCadCliente();
+        BeanCliente bean = new BeanCliente();
+
+        bean.setCodigo(Integer.parseInt(txtCodigo.getText()));
+        if(imagemCliente != null){
+        bean.setImgCliente(ManipularImagem.getImgBytes(imagemCliente));
+        }
+        bean.setNome(txtNome.getText());
+        bean.setDocumento(txtCpf.getText());
+        bean.setTipoDocumento(cboTipoDoc.getSelectedItem().toString());
+        TratamentoData trataData = new TratamentoData();
+        bean.setDataNascimento(trataData.getSqlDate(jdcDataNasc.getDate()));
+        System.out.println(bean.getDataNascimento());
+        bean.setEmail(txtEmail.getText());
+        bean.setTel(txtTel.getText());
+        bean.setCel(txtCel.getText());
+        bean.setNomeRecado(txtNomeRecado.getText());
+        bean.setTelRecado(txtTelRecado.getText());
+        bean.setCelRecado(txtCelRecado.getText());
+        bean.setCep(txtCep.getText());
+        bean.setEndereco(txtEndereco.getText());
+        bean.setBairro(txtBairro.getText());
+        bean.setCidade(txtCidade.getText());
+        bean.setUf(txtUf.getText());
+        bean.setNumResidencia(txtNumResidencia.getText());
+        bean.setComplemento(txtComplemento.getText());
+        bean.setReferencia(txtPontoReferencia.getText());
+        if(imagemFaxadaCliente !=null){
+        bean.setFotoFaxadaCliente(ManipularImagem.getImgBytes(imagemFaxadaCliente));
+        }
+
+        dao.atualizar(bean);
+    }
+
+    public void deletar() throws SQLException {
+        DaoCadCliente dao = new DaoCadCliente();
+        BeanCliente bean = new BeanCliente();
+
+        bean.setCodigo(Integer.parseInt(txtCodigo.getText()));
+        dao.deletar(bean);
+    }
+
 }//fim da classe
