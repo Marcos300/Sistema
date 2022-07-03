@@ -13,11 +13,11 @@ import javax.swing.text.MaskFormatter;
  *
  * @author Marcos
  */
-public class ValidarCNH {
+public class CNH {
      private static final String Formato = "###########";
      private String cnh;
      
-    public ValidarCNH() {
+    public CNH() {
        this.cnh = cnh;
     }
        

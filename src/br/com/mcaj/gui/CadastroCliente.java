@@ -20,7 +20,7 @@ import br.com.mcaj.validacao.CPF;
 import br.com.mcaj.validacao.Email;
 import br.com.mcaj.validacao.RG;
 import br.com.mcaj.validacao.Telefone;
-import br.com.mcaj.validacao.ValidarCNH;
+import br.com.mcaj.validacao.CNH;
 import br.com.mcaj.webcam.TirarFotoDaWebcam;
 import br.com.mcaj.webservice.BuscarCep;
 import java.awt.image.BufferedImage;
@@ -849,7 +849,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
 
         } else if (cboTipoDoc.getSelectedIndex() == 4) {
-            ValidarCNH cnh = new ValidarCNH();
+            CNH cnh = new CNH();
 
             if (cnh.validaCNH(cpf)) {
 
@@ -898,7 +898,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         switch (tipoDocumento) {
             case 0:
                 txtCpf.setEnabled(false);
-                txtCpf.setFormatterFactory(ValidarCNH.getFormat());
+                txtCpf.setFormatterFactory(CNH.getFormat());
 
                 break;
             case 1:
@@ -919,7 +919,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                 break;
             case 4:
                 txtCpf.setEnabled(true);
-                txtCpf.setFormatterFactory(ValidarCNH.getFormat());
+                txtCpf.setFormatterFactory(CNH.getFormat());
 
                 break;
         }
