@@ -108,6 +108,7 @@ public class DaoCadCliente {
         }
     }
 
+    //Atualizar os dados no bd
     public void atualizar(BeanCliente beanCliente) throws SQLException {
 
         BD bd = new BD();
