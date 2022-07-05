@@ -25,10 +25,8 @@ import br.com.mcaj.webcam.TirarFotoDaWebcam;
 import br.com.mcaj.webservice.BuscarCep;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
@@ -46,12 +44,11 @@ public class CadastroCliente extends javax.swing.JFrame {
     private DaoCadCliente cliente;
     private BD bd;
 
-    private String mensagemDesejaAtualizar = null;
-    private String mensagemAtualizados = null;
-    private String mensagemNãoAtualizar = null;
-    private String mensagemCancelar = null;
     private BufferedImage imagemCliente = null;
     private BufferedImage imagemFaxadaCliente = null;
+    private String DesejaGravar, Gravado, nGravar, Cancelar;
+    private ButtonGroup confbotoes;
+    private boolean fotohabilitada;
 
     /**
      * Creates new form CadastroCliente
@@ -70,6 +67,14 @@ public class CadastroCliente extends javax.swing.JFrame {
                     "Falha na Conexao, o sistema sera fechada!");
             System.exit(0);
         }
+        
+        
+        setBotoes(false, false, true, true, true);
+
+        setCampos(false, false, false, false, false,
+                false, false, false, false, false, false,
+                false, false, false, false, false, false, false,
+                false, false, false, false, false, false, false);
 
     }
 
@@ -90,7 +95,6 @@ public class CadastroCliente extends javax.swing.JFrame {
         selecDeletar = new javax.swing.JRadioButton();
         painelDeComandos = new javax.swing.JPanel();
         btGravar = new javax.swing.JButton();
-        btDeletar = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
         btCancelar = new javax.swing.JButton();
         painelDoFrame = new javax.swing.JPanel();
@@ -159,7 +163,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         jPanel5.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel3.setBackground(new java.awt.Color(51, 255, 51));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolher", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(204, 0, 0))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolher", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(204, 0, 0))); // NOI18N
 
         selecGravar.setText("Gravar");
         selecGravar.addActionListener(new java.awt.event.ActionListener() {
@@ -178,12 +182,17 @@ public class CadastroCliente extends javax.swing.JFrame {
         jPanel3.add(selecAtualizar);
 
         selecDeletar.setText("Deletar");
+        selecDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selecDeletarActionPerformed(evt);
+            }
+        });
         jPanel3.add(selecDeletar);
 
         jPanel5.add(jPanel3);
 
         painelDeComandos.setBackground(new java.awt.Color(204, 255, 204));
-        painelDeComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Executar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(204, 0, 0))); // NOI18N
+        painelDeComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Executar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(204, 0, 0))); // NOI18N
 
         btGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/savetheapplication_guardar_2958.png"))); // NOI18N
         btGravar.setText("Gravar");
@@ -193,15 +202,6 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
         });
         painelDeComandos.add(btGravar);
-
-        btDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/delete_delete_exit_1577.png"))); // NOI18N
-        btDeletar.setText("Deletar");
-        btDeletar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btDeletarActionPerformed(evt);
-            }
-        });
-        painelDeComandos.add(btDeletar);
 
         btLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/1486503744-backspace-clean-clear-delete-remove-erase_81258.png"))); // NOI18N
         btLimpar.setText("Limpar");
@@ -232,16 +232,23 @@ public class CadastroCliente extends javax.swing.JFrame {
 
         painelDadosClientes.setBackground(new java.awt.Color(153, 153, 153));
         painelDadosClientes.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        painelDadosClientes.setForeground(new java.awt.Color(0, 0, 0));
 
+        lbCodigo.setForeground(new java.awt.Color(0, 0, 0));
         lbCodigo.setText("Codigo");
 
-        txtCodigo.setEditable(false);
         txtCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCodigoActionPerformed(evt);
             }
         });
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyTyped(evt);
+            }
+        });
 
+        lbNome.setForeground(new java.awt.Color(0, 0, 0));
         lbNome.setText("Nome");
 
         txtNome.addActionListener(new java.awt.event.ActionListener() {
@@ -255,6 +262,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
         });
 
+        lbDoc.setForeground(new java.awt.Color(0, 0, 0));
         lbDoc.setText("DOC.");
 
         txtCpf.addActionListener(new java.awt.event.ActionListener() {
@@ -311,16 +319,20 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
         });
 
+        lbEmail.setForeground(new java.awt.Color(0, 0, 0));
         lbEmail.setText("E-mail");
 
+        lbTelFixo.setForeground(new java.awt.Color(0, 0, 0));
         lbTelFixo.setText("Fixo");
 
+        lbWhatsapp.setForeground(new java.awt.Color(0, 0, 0));
         lbWhatsapp.setText("Whatsapp");
 
         jPanel4.setBackground(new java.awt.Color(255, 204, 204));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contato para Recado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 16), new java.awt.Color(255, 0, 0))); // NOI18N
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lbNomeRecado.setForeground(new java.awt.Color(0, 0, 0));
         lbNomeRecado.setText("Nome");
         jPanel4.add(lbNomeRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 30));
 
@@ -331,9 +343,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         });
         jPanel4.add(txtNomeRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 620, -1));
 
+        lbTelRecado.setForeground(new java.awt.Color(0, 0, 0));
         lbTelRecado.setText("TEL");
         jPanel4.add(lbTelRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 40, 30));
 
+        lbCelRecado.setForeground(new java.awt.Color(0, 0, 0));
         lbCelRecado.setText("Whatsapp");
         jPanel4.add(lbCelRecado, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, 80, 30));
 
@@ -385,6 +399,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
         });
 
+        lbDataNasc.setForeground(new java.awt.Color(0, 0, 0));
         lbDataNasc.setText("Data Nasc.");
 
         txtTel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -461,16 +476,20 @@ public class CadastroCliente extends javax.swing.JFrame {
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE)
                     .addGroup(painelDadosClientesLayout.createSequentialGroup()
                         .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbCodigo)
-                            .addComponent(lbEmail)
-                            .addComponent(lbTelFixo)
-                            .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(lbDoc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lbNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(painelDadosClientesLayout.createSequentialGroup()
+                                .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbEmail)
+                                    .addComponent(lbTelFixo)
+                                    .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(lbDoc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lbNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(17, 17, 17))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelDadosClientesLayout.createSequentialGroup()
+                                .addComponent(lbCodigo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNome)
                             .addComponent(txtEmail)
@@ -498,7 +517,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                                         .addComponent(lbDataNasc)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jdcDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 230, Short.MAX_VALUE)))))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         painelDadosClientesLayout.setVerticalGroup(
@@ -508,11 +527,11 @@ public class CadastroCliente extends javax.swing.JFrame {
                 .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(painelDadosClientesLayout.createSequentialGroup()
                         .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btNovo)
+                            .addComponent(btBuscar)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lbCodigo)
-                                .addComponent(btNovo))
-                            .addComponent(btBuscar))
+                                .addComponent(lbCodigo)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -548,14 +567,14 @@ public class CadastroCliente extends javax.swing.JFrame {
                             .addComponent(btWebcam))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout painelAbaDadosLayout = new javax.swing.GroupLayout(painelAbaDados);
         painelAbaDados.setLayout(painelAbaDadosLayout);
         painelAbaDadosLayout.setHorizontalGroup(
             painelAbaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelAbaDadosLayout.createSequentialGroup()
+            .addGroup(painelAbaDadosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(painelDadosClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -652,6 +671,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         lbComplemento.setText("Complemento");
         painelDeEndereco.add(lbComplemento, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 170, -1, -1));
 
+        txtComplemento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtComplementoActionPerformed(evt);
+            }
+        });
         txtComplemento.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtComplementoKeyTyped(evt);
@@ -678,8 +702,14 @@ public class CadastroCliente extends javax.swing.JFrame {
 
         painelFotoFaxada.setBorder(javax.swing.BorderFactory.createTitledBorder("Foto da Faxada"));
         painelFotoFaxada.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
+        painelFotoFaxada.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                painelFotoFaxadaMouseClicked(evt);
+            }
+        });
 
         lbFotoFaxadaCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
+        lbFotoFaxadaCliente.setEnabled(false);
         lbFotoFaxadaCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbFotoFaxadaClienteMouseClicked(evt);
@@ -764,20 +794,51 @@ public class CadastroCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGravarActionPerformed
-        try {
-            // TODO add your handling code here:
-            Gravar();
-        } catch (SQLException ex) {
-            Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+
+        int resposta = JOptionPane.showConfirmDialog(null, DesejaGravar);
+        if (resposta == JOptionPane.YES_OPTION) {
+            if (selecGravar.isSelected()) {
+                try {
+                    Gravar();
+                    LimparCampos();
+                } catch (SQLException ex) {
+                    Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } // TODO Auto-generated catch block
+            if (selecAtualizar.isSelected()) {
+                try {
+                    Atualizar();
+                    LimparCampos();
+                } catch (SQLException ex) {
+                    Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+
+            if (selecDeletar.isSelected()) {
+                try {
+                    deletar();
+                    LimparCampos();
+                } catch (SQLException ex) {
+                    Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            JOptionPane.showMessageDialog(null, Gravado);
+
+        } else if (resposta == JOptionPane.NO_OPTION) {
+            JOptionPane.showMessageDialog(null,
+                    nGravar);
+
+        } else if (resposta == JOptionPane.CANCEL_OPTION) {
+            JOptionPane.showMessageDialog(null,
+                    Cancelar);
+
+            return;
         }
-        JOptionPane.showMessageDialog(null, "Gravado!!!","Dados Enviados para o Banco de Dados",JOptionPane.INFORMATION_MESSAGE );
+
 
     }//GEN-LAST:event_btGravarActionPerformed
-
-    private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_btDeletarActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
         // TODO add your handling code here:
@@ -786,36 +847,45 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void selecGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selecGravarActionPerformed
         // TODO add your handling code here:
-        // TODO add your handling code here:
-        mensagemDesejaAtualizar = "Deseja Gravar os Registros?";
-        mensagemAtualizados = "Registros Gravados no Banco!!!";
-        mensagemNãoAtualizar = "Os registros não serão Gravados!!!";
-        mensagemCancelar = "Registros não foram Gravados!!!";
 
-        // setBotoes(false, true, true, false, true, true, true, false, false, false);
+        DesejaGravar = "Deseja Gravar os Registros?";
+        Gravado = "Registros Gravados no Banco!!!";
+        nGravar = "Os registros não serão Gravados!!!";
+        Cancelar = "Registros não foram Gravados!!!";
+
         if (selecGravar.isSelected() == true) {
             btGravar.setText("Gravar");
-
+            btGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/savetheapplication_guardar_2958.png")));
+            btGravar.setToolTipText("Gravar");
         }
+        setBotoes(true, true, true, true, true);
 
     }//GEN-LAST:event_selecGravarActionPerformed
 
     private void selecAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selecAtualizarActionPerformed
         // TODO add your handling code here:
-        mensagemDesejaAtualizar = "Deseja Atualizar os Registros?";
-        mensagemAtualizados = "Registros Atualizados!!!";
-        mensagemNãoAtualizar = "Os registros não serão Atualizados!!!";
-        mensagemCancelar = "Registros não Atualizados!!!";
+        DesejaGravar = "Deseja Atualizar os Registros?";
+        Gravado = "Registros Atualizados no Banco!!!";
+        nGravar = "Os registros não serão Atualizados!!!";
+        Cancelar = "Registros não foram Atualizados!!!";
 
-        //setBotoes(false, true, true, false, true, true, true, false, false, false);
         if (selecAtualizar.isSelected() == true) {
             btGravar.setText("Atualizar");
+            btGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/refresh_arrows_14418.png")));
+            btGravar.setToolTipText("Atualizar");
 
         }
+        setBotoes(true, true, true, true, true);
     }//GEN-LAST:event_selecAtualizarActionPerformed
 
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            buscarPorID();
+        } catch (SQLException ex) {
+            Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
 
     }//GEN-LAST:event_txtCodigoActionPerformed
 
@@ -948,6 +1018,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             System.out.println(whats);
             MetodosCadClientes app = new MetodosCadClientes();
             app.AbrirWhatsWeb(whats);
+            JOptionPane.showMessageDialog(null, "Abrindo Whatsapp!!! ", "Whatsapp", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }//GEN-LAST:event_btWhatsappActionPerformed
@@ -1101,6 +1172,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                 } else {
                     MetodosCadClientes app = new MetodosCadClientes();
                     app.AbrirWhatsWeb(Link);
+                    JOptionPane.showMessageDialog(null, "O Gerenciador de E-mail será Aberto!!!", "Enviar Email pelo Gerenciador", JOptionPane.INFORMATION_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Esse email não é valido", "Email Invalido", JOptionPane.ERROR_MESSAGE);
@@ -1155,7 +1227,7 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void txtNumResidenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumResidenciaKeyTyped
         // TODO add your handling code here:
-       BloqueiaLetrasEnumeros bloqueioNumeros = new BloqueiaLetrasEnumeros();
+        BloqueiaLetrasEnumeros bloqueioNumeros = new BloqueiaLetrasEnumeros();
         bloqueioNumeros.bloqueiaCE(evt);
     }//GEN-LAST:event_txtNumResidenciaKeyTyped
 
@@ -1237,37 +1309,44 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void lbFotoFaxadaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbFotoFaxadaClienteMouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
-            lbFotoFaxadaCliente.setIcon(null);
-            JFileChooser fc = new JFileChooser();
-            fc.setDialogTitle("Escolha a Foto: ");
-            fc.setFileFilter(new FileNameExtensionFilter("Arquivo(.jpg | .png)",
-                    "jpg", "png"));
-            fc.setAcceptAllFileFilterUsed(false);
-            int res = fc.showOpenDialog(null);
-
-            if (res == JFileChooser.APPROVE_OPTION) {
-                File arquivo = fc.getSelectedFile();
-
-                try {
-                    imagemFaxadaCliente = ManipularImagem.setImagemDimensao(arquivo.getAbsolutePath(), 320, 200);
-
-                    lbFotoFaxadaCliente.setIcon(new ImageIcon(imagemFaxadaCliente));
-
-                } catch (Exception ex) {
-                    // System.out.println(ex.printStackTrace().toString());
+        if (fotohabilitada == false){
+            
+        } else {
+            if (evt.getClickCount() == 2) {
+                lbFotoFaxadaCliente.setIcon(null);
+                JFileChooser fc = new JFileChooser();
+                fc.setDialogTitle("Escolha a Foto: ");
+                fc.setFileFilter(new FileNameExtensionFilter("Arquivo(.jpg | .png)",
+                        "jpg", "png"));
+                fc.setAcceptAllFileFilterUsed(false);
+                int res = fc.showOpenDialog(null);
+                
+                if (res == JFileChooser.APPROVE_OPTION) {
+                    File arquivo = fc.getSelectedFile();
+                    
+                    try {
+                        imagemFaxadaCliente = ManipularImagem.setImagemDimensao(arquivo.getAbsolutePath(), 320, 200);
+                        
+                        lbFotoFaxadaCliente.setIcon(new ImageIcon(imagemFaxadaCliente));
+                        
+                    } catch (Exception ex) {
+                        // System.out.println(ex.printStackTrace().toString());
+                    }
+                    
+                } else {
+                    JOptionPane.showMessageDialog(null, "Voce nao selecionou nenhum arquivo.");
                 }
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Voce nao selecionou nenhum arquivo.");
             }
         }
     }//GEN-LAST:event_lbFotoFaxadaClienteMouseClicked
 
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
         // TODO add your handling code here:
-        lbFotoCliente.setIcon(null);
-        lbFotoFaxadaCliente.setIcon(null);
+        LimparCampos();
+        setCampos(false, false, false, false, false,
+                false, false, false, false, false, false,
+                false, false, false, false, false, false, false,
+                false, false, false, false, false, false, false);
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1283,7 +1362,15 @@ public class CadastroCliente extends javax.swing.JFrame {
     private void btNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNovoActionPerformed
         try {
             // TODO add your handling code here:
+            LimparCampos();
             novoCodigo();
+            setCampos(true, true, false, true, true,
+                    true, true, true, true, true, true,
+                    true, true, true, true, true, true, true,
+                    true, true, true, true, true, true, true);
+            
+            setBotoes(false, true, true, false, true);
+
         } catch (SQLException ex) {
             Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1292,6 +1379,39 @@ public class CadastroCliente extends javax.swing.JFrame {
     private void txtNumResidenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumResidenciaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNumResidenciaActionPerformed
+
+    private void selecDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selecDeletarActionPerformed
+        // TODO add your handling code here:
+        DesejaGravar = "Deseja Deletar os Registros?";
+        Gravado = "Registros foram Deletados no Banco!!!";
+        nGravar = "Os registros não serão Deletados!!!";
+        Cancelar = "Registros não foram Deletados!!!";
+
+        // setBotoes(false, false, true, true, true, true, true, false, false, false);
+        if (selecDeletar.isSelected() == true) {
+            btGravar.setText("Deletar");
+            btGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/delete_delete_exit_1577.png")));
+            btGravar.setToolTipText("Deletar");
+        }
+
+        setBotoes(true, true, true, true, true);
+
+    }//GEN-LAST:event_selecDeletarActionPerformed
+
+    private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
+        // TODO add your handling code here:
+        BloqueiaLetrasEnumeros bloqueioLetras = new BloqueiaLetrasEnumeros();
+        bloqueioLetras.bloqueiaLetras(evt);
+    }//GEN-LAST:event_txtCodigoKeyTyped
+
+    private void txtComplementoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtComplementoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtComplementoActionPerformed
+
+    private void painelFotoFaxadaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_painelFotoFaxadaMouseClicked
+        // TODO add your handling code here:
+         
+    }//GEN-LAST:event_painelFotoFaxadaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1329,13 +1449,18 @@ public class CadastroCliente extends javax.swing.JFrame {
     }
 
     public void confJRadioButton() {
-        ButtonGroup confbotoes = new ButtonGroup();
+        confbotoes = new ButtonGroup();
         confbotoes.add(selecGravar);
         confbotoes.add(selecAtualizar);
         confbotoes.add(selecDeletar);
     }
 
-    public void setBotoes() {
+    public void setBotoes(boolean gravar, boolean limpar, boolean cancelar, boolean novo, boolean buscar) {
+        btGravar.setEnabled(gravar);
+        btLimpar.setEnabled(limpar);
+        btCancelar.setEnabled(cancelar);
+        btNovo.setEnabled(novo);
+        btBuscar.setEnabled(buscar);
 
     }
 
@@ -1360,7 +1485,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         txtEndereco.setDocument(new LimitaCaracteres(70, LimitaCaracteres.TipoEntrada.NOME));
         txtBairro.setDocument(new LimitaCaracteres(70, LimitaCaracteres.TipoEntrada.NOME));
         txtCidade.setDocument(new LimitaCaracteres(70, LimitaCaracteres.TipoEntrada.NOME));
-        txtComplemento.setDocument(new LimitaCaracteres(70, LimitaCaracteres.TipoEntrada.REFERENCIA));
+        //txtComplemento.setDocument(new LimitaCaracteres(20, LimitaCaracteres.TipoEntrada.COMPLEMENTO)); 
         txtNumResidencia.setDocument(new LimitaCaracteres(14, LimitaCaracteres.TipoEntrada.REFERENCIA));
         txtUf.setDocument(new LimitaCaracteres(2, LimitaCaracteres.TipoEntrada.NOME));
         txtPontoReferencia.setDocument(new LimitaCaracteres(350, LimitaCaracteres.TipoEntrada.REFERENCIA));
@@ -1384,7 +1509,6 @@ public class CadastroCliente extends javax.swing.JFrame {
     private javax.swing.JButton btBuscaFoto;
     private javax.swing.JButton btBuscar;
     private javax.swing.JButton btCancelar;
-    private javax.swing.JButton btDeletar;
     private javax.swing.JButton btGravar;
     private javax.swing.JButton btLimpar;
     private javax.swing.JButton btNovo;
@@ -1449,17 +1573,21 @@ public class CadastroCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtUf;
     // End of variables declaration//GEN-END:variables
 
-    //BANCO DE DADOSÇ
+    //BANCO DE DADOS
     public void novoCodigo() throws SQLException {
+
         int codigo;
+
         codigo = cliente.getProximoCodigo();
         String cod = String.valueOf(codigo);
-        if (cod.equals("0")) {
+
+        if (codigo == 0) {
             cod = "1";
             txtCodigo.setText(cod);
         } else {
             txtCodigo.setText(cod);
         }
+
     }
 
     public void Gravar() throws SQLException {
@@ -1468,8 +1596,8 @@ public class CadastroCliente extends javax.swing.JFrame {
         BeanCliente bean = new BeanCliente();
 
         bean.setCodigo(Integer.parseInt(txtCodigo.getText()));
-        if(imagemCliente != null){
-        bean.setImgCliente(ManipularImagem.getImgBytes(imagemCliente));
+        if (imagemCliente != null) {
+            bean.setImgCliente(ManipularImagem.getImgBytes(imagemCliente));
         }
         bean.setNome(txtNome.getText());
         bean.setDocumento(txtCpf.getText());
@@ -1490,8 +1618,8 @@ public class CadastroCliente extends javax.swing.JFrame {
         bean.setNumResidencia(txtNumResidencia.getText());
         bean.setComplemento(txtComplemento.getText());
         bean.setReferencia(txtPontoReferencia.getText());
-        if(imagemFaxadaCliente !=null){
-        bean.setFotoFaxadaCliente(ManipularImagem.getImgBytes(imagemFaxadaCliente));
+        if (imagemFaxadaCliente != null) {
+            bean.setFotoFaxadaCliente(ManipularImagem.getImgBytes(imagemFaxadaCliente));
         }
         dao.inserir(bean);
     }
@@ -1501,9 +1629,10 @@ public class CadastroCliente extends javax.swing.JFrame {
         BeanCliente bean = new BeanCliente();
 
         bean.setCodigo(Integer.parseInt(txtCodigo.getText()));
-        if(imagemCliente != null){
-        bean.setImgCliente(ManipularImagem.getImgBytes(imagemCliente));
+        if (imagemCliente != null) {
+            bean.setImgCliente(ManipularImagem.getImgBytes(imagemCliente));
         }
+
         bean.setNome(txtNome.getText());
         bean.setDocumento(txtCpf.getText());
         bean.setTipoDocumento(cboTipoDoc.getSelectedItem().toString());
@@ -1524,8 +1653,8 @@ public class CadastroCliente extends javax.swing.JFrame {
         bean.setNumResidencia(txtNumResidencia.getText());
         bean.setComplemento(txtComplemento.getText());
         bean.setReferencia(txtPontoReferencia.getText());
-        if(imagemFaxadaCliente !=null){
-        bean.setFotoFaxadaCliente(ManipularImagem.getImgBytes(imagemFaxadaCliente));
+        if (imagemFaxadaCliente != null) {
+            bean.setFotoFaxadaCliente(ManipularImagem.getImgBytes(imagemFaxadaCliente));
         }
 
         dao.atualizar(bean);
@@ -1537,6 +1666,114 @@ public class CadastroCliente extends javax.swing.JFrame {
 
         bean.setCodigo(Integer.parseInt(txtCodigo.getText()));
         dao.deletar(bean);
+    }
+
+    public void buscarPorID() throws SQLException {
+        int id = Integer.parseInt(txtCodigo.getText());
+        DaoCadCliente dao = new DaoCadCliente();
+        BeanCliente beanCliente = dao.buscarPorCodigo(id);
+
+        this.txtCodigo.setText(String.valueOf(beanCliente.getCodigo()));
+        this.txtNome.setText(beanCliente.getNome());
+        ManipularImagem.exibiImagemLabel(beanCliente.getImgCliente(), lbFotoCliente);
+
+        String tipoDoc = beanCliente.getTipoDocumento();
+        switch (tipoDoc) {
+            case "CPF":
+                cboTipoDoc.setSelectedIndex(1);
+                break;
+            case "CNPJ":
+                cboTipoDoc.setSelectedIndex(2);
+                break;
+            case "RG":
+                cboTipoDoc.setSelectedIndex(3);
+                break;
+            case "CNH":
+                cboTipoDoc.setSelectedIndex(4);
+                break;
+            default:
+                cboTipoDoc.setSelectedIndex(0);
+                break;
+        }
+
+        this.txtCpf.setText(beanCliente.getDocumento());
+        this.jdcDataNasc.setDate(beanCliente.getDataNascimento());
+        this.txtEmail.setText(beanCliente.getEmail());
+        this.txtTel.setText(beanCliente.getTel());
+        this.txtCel.setText(beanCliente.getCel());
+        this.txtNomeRecado.setText(beanCliente.getNomeRecado());
+        this.txtTelRecado.setText(beanCliente.getTelRecado());
+        this.txtCelRecado.setText(beanCliente.getCelRecado());
+        this.txtCep.setText(beanCliente.getCep());
+        this.txtEndereco.setText(beanCliente.getEndereco());
+        this.txtBairro.setText(beanCliente.getBairro());
+        this.txtCidade.setText(beanCliente.getCidade());
+        this.txtUf.setText(beanCliente.getUf());
+        this.txtNumResidencia.setText(beanCliente.getNumResidencia());
+        this.txtComplemento.setText(beanCliente.getComplemento());
+        this.txtPontoReferencia.setText(beanCliente.getReferencia());
+        ManipularImagem.exibiImagemLabel(beanCliente.getFotoFaxadaCliente(), lbFotoFaxadaCliente);
+        selecGravar.setEnabled(false);
+
+    }
+
+    public void LimparCampos() {
+        txtCodigo.setText("");
+        txtNome.setText("");
+        txtCpf.setText("");
+        jdcDataNasc.setDate(null);
+        cboTipoDoc.setSelectedIndex(0);
+        lbFotoCliente.setIcon(null);
+        txtEmail.setText("");
+        txtTel.setText("");
+        txtCel.setText("");
+        txtNomeRecado.setText("");
+        txtTelRecado.setText("");
+        txtCelRecado.setText("");
+        txtCep.setText("");
+        txtEndereco.setText("");
+        txtBairro.setText("");
+        txtCidade.setText("");
+        txtUf.setText("");
+        txtNumResidencia.setText("");
+        txtComplemento.setText("");
+        txtPontoReferencia.setText("");
+        lbFotoFaxadaCliente.setIcon(null);
+        confbotoes.clearSelection();
+        setBotoes(false, false, false, true, true);
+    }
+
+    public void setCampos(boolean codigo, boolean nome, boolean documento, boolean dataNasc, boolean tipoDoc,
+            boolean fotoCliente, boolean email, boolean tel, boolean cel, boolean nomerecado, boolean telrecado,
+            boolean celrecado, boolean cep, boolean endereco, boolean bairro, boolean cidade, boolean uf, boolean numresidencia,
+            boolean complemento, boolean pontoreferencia, boolean fotofaxada, boolean gravar, boolean atualizar, boolean deletar, boolean habilitar) {
+
+        txtCodigo.setEnabled(codigo);
+        txtNome.setEnabled(nome);
+        txtCpf.setEnabled(documento);
+        jdcDataNasc.setEnabled(dataNasc);
+        cboTipoDoc.setEnabled(tipoDoc);
+        lbFotoCliente.setEnabled(fotoCliente);
+        txtEmail.setEnabled(email);
+        txtTel.setEnabled(tel);
+        txtCel.setEnabled(cel);
+        txtNomeRecado.setEnabled(nomerecado);
+        txtTelRecado.setEnabled(telrecado);
+        txtCelRecado.setEnabled(celrecado);
+        txtCep.setEnabled(cep);
+        txtEndereco.setEnabled(endereco);
+        txtBairro.setEnabled(bairro);
+        txtCidade.setEnabled(cidade);
+        txtUf.setEnabled(uf);
+        txtNumResidencia.setEnabled(numresidencia);
+        txtComplemento.setEnabled(complemento);
+        txtPontoReferencia.setEnabled(pontoreferencia);
+        lbFotoFaxadaCliente.setEnabled(fotofaxada);
+        selecGravar.setEnabled(gravar);
+        selecAtualizar.setEnabled(atualizar);
+        selecDeletar.setEnabled(deletar);
+        fotohabilitada = habilitar;
+
     }
 
 }//fim da classe

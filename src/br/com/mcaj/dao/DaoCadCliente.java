@@ -34,6 +34,8 @@ public class DaoCadCliente {
         beanCliente = new BeanCliente();
     }
 
+    
+    //caso voce feche a conexao e o result, não retorna mais o proximo codigo, caso o campo de codigo seja usado para pesquisa.
     public int getProximoCodigo() throws SQLException {
 
         sql = "SELECT (MAX(CODIGO)+1) AS NOVO_CODIGO_CLIENTE FROM CLIENTE";
@@ -48,10 +50,6 @@ public class DaoCadCliente {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            bd.close();
-            stmt.close();
-            resultSet.close();
         }
         return novoCodigo;
     }
@@ -119,7 +117,7 @@ public class DaoCadCliente {
             System.exit(0);
         }
 
-        String sqlAtualiza = "UPDATE PRODUTO SET IMGCLIENTE=?, NOME=? DOCUMENTO=?,TIPODOCUMENTO=?,DATANASC=?, EMAIL=?, TEL=?, CEL=?, NOMERECADO=?, TELRECADO=?, CELRECADO=?,"
+        String sqlAtualiza = "UPDATE CLIENTE SET IMGCLIENTE=?, NOME=?, DOCUMENTO=?,TIPODOCUMENTO=?,DATANASC=?, EMAIL=?, TEL=?, CEL=?, NOMERECADO=?, TELRECADO=?, CELRECADO=?,"
                 + "CEP=?,ENDERECO=?, BAIRRO=?, CIDADE=?, UF=?, NUMRESIDENCIA=?, COMPLEMENTO=?, REFERENCIA=?, FOTOFAXADACLIENTE=? WHERE CODIGO=?;";
 
         PreparedStatement statement = null;
@@ -132,7 +130,13 @@ public class DaoCadCliente {
             statement.setString(2, beanCliente.getNome().trim().toUpperCase().replace(";", "").replace(";", ""));
             statement.setString(3, beanCliente.getDocumento().trim().toUpperCase().replace(";", "").replace(";", ""));
             statement.setString(4, beanCliente.getTipoDocumento().trim().toUpperCase().replace(";", "").replace(";", ""));
-            statement.setDate(5, (java.sql.Date) beanCliente.getDataNascimento());
+
+            TratamentoData trataData = new TratamentoData();
+
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            Date data = trataData.getSqlDate(beanCliente.getDataNascimento());
+            statement.setDate(5, data);
+
             statement.setString(6, beanCliente.getEmail().trim().toLowerCase().replace(";", "").replace(";", ""));
             statement.setString(7, beanCliente.getTel().trim().toUpperCase().replace(";", "").replace(";", ""));
             statement.setString(8, beanCliente.getCel().trim().toUpperCase().replace(";", "").replace(";", ""));
@@ -152,6 +156,7 @@ public class DaoCadCliente {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println(statement);
         } finally {
             bd.close();
             statement.close();
@@ -189,7 +194,7 @@ public class DaoCadCliente {
     }
 
     public static ArrayList<BeanCliente> buscarTodos() throws SQLException {
-        String PESQUISA_BUSCA_POR_TODOS = "SELECT * FROM CLIENTES ORDER BY CODIGO";
+        String PESQUISA_BUSCA_POR_TODOS = "SELECT * FROM CLIENTE ORDER BY CODIGO";
         BD bd = new BD();
         if (!bd.getConnection()) {
 
@@ -199,7 +204,7 @@ public class DaoCadCliente {
         }
         PreparedStatement statement = null;
         ResultSet result = null;
-        ArrayList<BeanCliente> listaTodos = new ArrayList<BeanCliente>();
+        ArrayList<BeanCliente> listaTodos = new ArrayList<>();
         try {
 
             statement = bd.connection.prepareStatement(PESQUISA_BUSCA_POR_TODOS);
@@ -219,6 +224,122 @@ public class DaoCadCliente {
             bd.close();
             statement.close();
             result.close();
+        }
+        return listaTodos;
+    }
+
+
+   //busca por um unico cliente
+    public BeanCliente buscarPorCodigo(int codigo) throws SQLException {
+
+        String PESQUISA_BUSCA_POR_CODIGO = "SELECT * FROM CLIENTE WHERE CODIGO=?";
+        BeanCliente cliente = new BeanCliente();
+
+        if (!bd.getConnection()) {
+
+            JOptionPane.showMessageDialog(null,
+                    "Falha na conexao, o sistema será fechado!");
+            System.exit(0);
+        }
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        BeanCliente listaTodos = new BeanCliente();
+
+        try {
+
+            statement = bd.connection.prepareStatement(PESQUISA_BUSCA_POR_CODIGO);
+            statement.setInt(1, codigo);
+            result = statement.executeQuery();
+            while (result.next()) {
+
+                cliente.setCodigo(result.getInt("CODIGO"));
+                cliente.setImgCliente(result.getBytes("IMGCLIENTE"));
+                cliente.setNome(result.getString("NOME"));
+                cliente.setDocumento(result.getString("DOCUMENTO"));
+                cliente.setTipoDocumento(result.getString("TIPODOCUMENTO"));
+                cliente.setDataNascimento(result.getDate("DATANASC"));
+                cliente.setEmail(result.getString("EMAIL"));
+                cliente.setTel(result.getString("TEL"));
+                cliente.setCel(result.getString("CEL"));
+                cliente.setNomeRecado(result.getString("NOMERECADO"));
+                cliente.setTelRecado(result.getString("TELRECADO"));
+                cliente.setCelRecado(result.getString("CELRECADO"));
+                cliente.setCep(result.getString("CEP"));
+                cliente.setEndereco(result.getString("ENDERECO"));
+                cliente.setBairro(result.getString("BAIRRO"));
+                cliente.setCidade(result.getString("CIDADE"));
+                cliente.setUf(result.getString("UF"));
+                cliente.setNumResidencia(result.getString("NUMRESIDENCIA"));
+                cliente.setComplemento(result.getString("COMPLEMENTO"));
+                cliente.setReferencia(result.getString("REFERENCIA"));
+                cliente.setFotoFaxadaCliente(result.getBytes("FOTOFAXADACLIENTE"));
+                System.out.println("Buscar: " + cliente);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            bd.close();
+            result.close();
+            statement.close();
+        }
+        return cliente;
+
+    }
+    
+        public ArrayList<BeanCliente> buscarPorNome(String nome) throws SQLException {
+
+        String PESQUISA_BUSCA_POR_NOME = "SELECT * FROM CLIENTES ORDER BY CODIGO";
+
+        BD bd = new BD();
+        if (!bd.getConnection()) {
+
+            JOptionPane.showMessageDialog(null,
+                    "Falha na conexao, o sistema será fechado!");
+            System.exit(0);
+        }
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        ArrayList<BeanCliente> listaTodos = new ArrayList<BeanCliente>();
+        nome = "%" + nome + "%";
+        try {
+
+            statement = bd.connection.prepareStatement(PESQUISA_BUSCA_POR_NOME);
+            statement.setString(1, nome);
+            result = statement.executeQuery();
+            while (result.next()) {
+
+                BeanCliente cliente = new BeanCliente();
+                cliente.setCodigo(result.getInt("CODIGO"));
+                cliente.setImgCliente(result.getBytes("IMGCLIENTE"));
+                cliente.setNome(result.getString("NOME"));
+                cliente.setDocumento(result.getString("DOCUMENTO"));
+                cliente.setTipoDocumento(result.getString("TIPODOCUMENTO"));
+                cliente.setDataNascimento(result.getDate("DATANASC"));
+                cliente.setEmail(result.getString("EMAIL"));
+                cliente.setTel(result.getString("TEL"));
+                cliente.setCel(result.getString("CEL"));
+                cliente.setNomeRecado(result.getString("NOMERECADO"));
+                cliente.setTelRecado(result.getString("TELRECADO"));
+                cliente.setCelRecado(result.getString("CELRECADO"));
+                cliente.setCep(result.getString("CEP"));
+                cliente.setEndereco(result.getString("ENDERECO"));
+                cliente.setBairro(result.getString("BAIRRO"));
+                cliente.setCidade(result.getString("CIDADE"));
+                cliente.setUf(result.getString("UF"));
+                cliente.setNumResidencia(result.getString("NUMRESIDENCIA"));
+                cliente.setComplemento(result.getString("COMPLEMENTO"));
+                cliente.setReferencia(result.getString("REFERENCIA"));
+                cliente.setFotoFaxadaCliente(result.getBytes("FOTOFAXADACLIENTE"));
+
+                listaTodos.add(cliente);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            bd.close();
+            result.close();
+            statement.close();
         }
         return listaTodos;
     }

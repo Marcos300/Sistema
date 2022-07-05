@@ -236,7 +236,6 @@ public class BeanCliente implements Serializable{
         return "BeanCliente{" + "codigo=" + codigo + ", imgCliente=" + imgCliente + ", nome=" + nome + ", documento=" + documento + ", tipoDocumento=" + tipoDocumento + ", dataNascimento=" + dataNascimento + ", email=" + email + ", tel=" + tel + ", cel=" + cel + ", nomeRecado=" + nomeRecado + ", telRecado=" + telRecado + ", celRecado=" + celRecado + ", cep=" + cep + ", endereco=" + endereco + ", bairro=" + bairro + ", cidade=" + cidade + ", uf=" + uf + ", numResidencia=" + numResidencia + ", complemento=" + complemento + ", referencia=" + referencia + ", fotoFaxadaCliente=" + fotoFaxadaCliente + '}';
     }
 
-    
-   
-    
+
+       
 }

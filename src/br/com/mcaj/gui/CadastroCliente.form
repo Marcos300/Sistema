@@ -113,6 +113,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Deletar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selecDeletarActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -141,17 +144,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btGravarActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btDeletar">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/br/com/mcaj/gui/imagens/delete_delete_exit_1577.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Deletar"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btDeletarActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btLimpar">
@@ -234,7 +226,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="painelDadosClientes" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -262,6 +254,9 @@
                         <TitledBorder/>
                       </Border>
                     </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="0" green="0" red="0" type="rgb"/>
+                    </Property>
                   </Properties>
 
                   <Layout>
@@ -284,18 +279,25 @@
                               </Group>
                               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jPanel4" pref="800" max="32767" attributes="0"/>
+                                  <Component id="jPanel4" pref="815" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lbCodigo" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lbEmail" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lbTelFixo" min="-2" max="-2" attributes="0"/>
-                                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                              <Component id="lbDoc" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="lbNome" alignment="0" max="32767" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="lbEmail" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lbTelFixo" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                                      <Component id="lbDoc" alignment="0" max="32767" attributes="0"/>
+                                                      <Component id="lbNome" alignment="0" max="32767" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="lbCodigo" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="txtNome" alignment="0" max="32767" attributes="0"/>
                                           <Component id="txtEmail" max="32767" attributes="0"/>
@@ -327,7 +329,7 @@
                                                       <Component id="jdcDataNasc" min="-2" pref="148" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
-                                              <EmptySpace min="0" pref="230" max="32767" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -343,12 +345,12 @@
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="btNovo" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btBuscar" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                                               <Component id="txtCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="lbCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="btNovo" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="btBuscar" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
@@ -397,7 +399,7 @@
                                       <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="37" max="32767" attributes="0"/>
+                              <EmptySpace pref="36" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -405,19 +407,23 @@
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="lbCodigo">
                       <Properties>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="0" green="0" red="0" type="rgb"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Codigo"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtCodigo">
-                      <Properties>
-                        <Property name="editable" type="boolean" value="false"/>
-                      </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCodigoActionPerformed"/>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCodigoKeyTyped"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="lbNome">
                       <Properties>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="0" green="0" red="0" type="rgb"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Nome"/>
                       </Properties>
                     </Component>
@@ -429,6 +435,9 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="lbDoc">
                       <Properties>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="0" green="0" red="0" type="rgb"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="DOC."/>
                       </Properties>
                     </Component>
@@ -498,16 +507,25 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="lbEmail">
                       <Properties>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="0" green="0" red="0" type="rgb"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="E-mail"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="lbTelFixo">
                       <Properties>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="0" green="0" red="0" type="rgb"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Fixo"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="lbWhatsapp">
                       <Properties>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="0" green="0" red="0" type="rgb"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Whatsapp"/>
                       </Properties>
                     </Component>
@@ -532,6 +550,9 @@
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="lbNomeRecado">
                           <Properties>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="0" green="0" red="0" type="rgb"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Nome"/>
                           </Properties>
                           <Constraints>
@@ -552,6 +573,9 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="lbTelRecado">
                           <Properties>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="0" green="0" red="0" type="rgb"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="TEL"/>
                           </Properties>
                           <Constraints>
@@ -562,6 +586,9 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="lbCelRecado">
                           <Properties>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="0" green="0" red="0" type="rgb"/>
+                            </Property>
                             <Property name="text" type="java.lang.String" value="Whatsapp"/>
                           </Properties>
                           <Constraints>
@@ -634,6 +661,9 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="lbDataNasc">
                       <Properties>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="0" green="0" red="0" type="rgb"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Data Nasc."/>
                       </Properties>
                     </Component>
@@ -876,6 +906,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtComplemento">
                       <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtComplementoActionPerformed"/>
                         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtComplementoKeyTyped"/>
                       </Events>
                       <Constraints>
@@ -933,6 +964,9 @@
                           <Color id="Cursor em Forma de Cruz"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="painelFotoFaxadaMouseClicked"/>
+                      </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                           <AbsoluteConstraints x="620" y="60" width="350" height="250"/>
@@ -959,6 +993,7 @@
                                 <LineBorder thickness="5"/>
                               </Border>
                             </Property>
+                            <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
                             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbFotoFaxadaClienteMouseClicked"/>

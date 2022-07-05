@@ -17,7 +17,7 @@ import javax.swing.text.PlainDocument;
 public class LimitaCaracteres extends PlainDocument {
 
     public enum TipoEntrada {
-        NUMEROINTEIRO, NUMERODECIMAL, NOME, EMAIL, DATA,REFERENCIA;
+        NUMEROINTEIRO, NUMERODECIMAL, NOME, EMAIL, DATA, REFERENCIA, COMPLEMENTO;
     };
 
     private int qtdeCaracteres;
@@ -51,8 +51,11 @@ public class LimitaCaracteres extends PlainDocument {
             case DATA:
                 regex = "[^0-9/]";
                 break;
-                case REFERENCIA:
-                regex = "[^\\p{IsLatin}.\\-_] [^0-9]";
+            case REFERENCIA:
+                regex = "[^\\p{IsLatin} @.\\-_] [^0-9].";
+                break;
+            case COMPLEMENTO:
+                regex = "[^\\p{IsLatin} @.\\-_] [^0-9].";
                 break;
         }
 
