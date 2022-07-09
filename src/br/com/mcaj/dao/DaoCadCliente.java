@@ -15,6 +15,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,7 +37,6 @@ public class DaoCadCliente {
         beanCliente = new BeanCliente();
     }
 
-    
     //caso voce feche a conexao e o result, não retorna mais o proximo codigo, caso o campo de codigo seja usado para pesquisa.
     public int getProximoCodigo() throws SQLException {
 
@@ -193,9 +195,8 @@ public class DaoCadCliente {
         }
     }
 
-    public static ArrayList<BeanCliente> buscarTodos() throws SQLException {
-        String PESQUISA_BUSCA_POR_TODOS = "SELECT * FROM CLIENTE ORDER BY CODIGO";
-        BD bd = new BD();
+    public List<BeanCliente> buscarTodos() {
+        String PESQUISA_BUSCA_POR_TODOS = "select * from cliente order by codigo";
         if (!bd.getConnection()) {
 
             JOptionPane.showMessageDialog(null,
@@ -204,7 +205,7 @@ public class DaoCadCliente {
         }
         PreparedStatement statement = null;
         ResultSet result = null;
-        ArrayList<BeanCliente> listaTodos = new ArrayList<>();
+        List<BeanCliente> listaTodos = new ArrayList<>();
         try {
 
             statement = bd.connection.prepareStatement(PESQUISA_BUSCA_POR_TODOS);
@@ -215,21 +216,43 @@ public class DaoCadCliente {
                 cliente.setImgCliente(result.getBytes("IMGCLIENTE"));
                 cliente.setNome(result.getString("NOME"));
                 cliente.setDocumento(result.getString("DOCUMENTO"));
+                cliente.setTipoDocumento(result.getString("TIPODOCUMENTO"));
+                cliente.setDataNascimento(result.getDate("DATANASC"));
+                cliente.setEmail(result.getString("EMAIL"));
+                cliente.setTel(result.getString("TEL"));
+                cliente.setCel(result.getString("CEL"));
+                cliente.setNomeRecado(result.getString("NOMERECADO"));
+                cliente.setTelRecado(result.getString("TELRECADO"));
+                cliente.setCelRecado(result.getString("CELRECADO"));
+                cliente.setCep(result.getString("CEP"));
+                cliente.setEndereco(result.getString("ENDERECO"));
+                cliente.setBairro(result.getString("BAIRRO"));
+                cliente.setCidade(result.getString("CIDADE"));
+                cliente.setUf(result.getString("UF"));
+                cliente.setNumResidencia(result.getString("NUMRESIDENCIA"));
+                cliente.setComplemento(result.getString("COMPLEMENTO"));
+                cliente.setReferencia(result.getString("REFERENCIA"));
+                cliente.setFotoFaxadaCliente(result.getBytes("FOTOFAXADACLIENTE"));
 
                 listaTodos.add(cliente);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            bd.close();
-            statement.close();
-            result.close();
+
+            try {
+                bd.close();
+                statement.close();
+                result.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DaoCadCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         return listaTodos;
     }
 
-
-   //busca por um unico cliente
+    //busca por um unico cliente
     public BeanCliente buscarPorCodigo(int codigo) throws SQLException {
 
         String PESQUISA_BUSCA_POR_CODIGO = "SELECT * FROM CLIENTE WHERE CODIGO=?";
@@ -243,7 +266,6 @@ public class DaoCadCliente {
         }
         PreparedStatement statement = null;
         ResultSet result = null;
-        BeanCliente listaTodos = new BeanCliente();
 
         try {
 
@@ -286,12 +308,11 @@ public class DaoCadCliente {
         return cliente;
 
     }
-    
-        public ArrayList<BeanCliente> buscarPorNome(String nome) throws SQLException {
+
+    public BeanCliente buscarPorDocumento(String documento) throws SQLException {
 
         String PESQUISA_BUSCA_POR_NOME = "SELECT * FROM CLIENTES ORDER BY CODIGO";
 
-        BD bd = new BD();
         if (!bd.getConnection()) {
 
             JOptionPane.showMessageDialog(null,
@@ -300,16 +321,16 @@ public class DaoCadCliente {
         }
         PreparedStatement statement = null;
         ResultSet result = null;
-        ArrayList<BeanCliente> listaTodos = new ArrayList<BeanCliente>();
-        nome = "%" + nome + "%";
+        BeanCliente cliente = new BeanCliente();
+
+        documento = "%" + documento + "%";
         try {
 
             statement = bd.connection.prepareStatement(PESQUISA_BUSCA_POR_NOME);
-            statement.setString(1, nome);
+            statement.setString(1, documento);
             result = statement.executeQuery();
             while (result.next()) {
 
-                BeanCliente cliente = new BeanCliente();
                 cliente.setCodigo(result.getInt("CODIGO"));
                 cliente.setImgCliente(result.getBytes("IMGCLIENTE"));
                 cliente.setNome(result.getString("NOME"));
@@ -332,7 +353,6 @@ public class DaoCadCliente {
                 cliente.setReferencia(result.getString("REFERENCIA"));
                 cliente.setFotoFaxadaCliente(result.getBytes("FOTOFAXADACLIENTE"));
 
-                listaTodos.add(cliente);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -341,7 +361,7 @@ public class DaoCadCliente {
             result.close();
             statement.close();
         }
-        return listaTodos;
+        return cliente;
     }
 
 }
