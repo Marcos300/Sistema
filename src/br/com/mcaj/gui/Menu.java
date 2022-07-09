@@ -3,19 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.mcaj.gui;
 
 import br.com.mcaj.dao.DaoLogin;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Marcos
  */
 public class Menu extends javax.swing.JFrame {
-private JLabel pessoa;
-	private String nomeUsuario = "Teste";
+
+    private JLabel pessoa;
+    private String nomeUsuario = "Teste";
+
     /**
      * Creates new form Menu
      */
@@ -48,8 +50,14 @@ private JLabel pessoa;
         jMenu5 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Menu");
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
@@ -159,27 +167,38 @@ private JLabel pessoa;
 
     private void itemMenuCadLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuCadLoteActionPerformed
         // TODO add your handling code here:
-  
+
         CarregarProdutos cadLote = new CarregarProdutos();
         cadLote.setVisible(true);
-         
+
     }//GEN-LAST:event_itemMenuCadLoteActionPerformed
 
     private void itemMenuCadNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuCadNormalActionPerformed
         // TODO add your handling code here:
-      CadProduto app = new CadProduto();
-      app.setVisible(true);
+        CadProduto app = new CadProduto();
+        app.setVisible(true);
     }//GEN-LAST:event_itemMenuCadNormalActionPerformed
 
     private void imnuClienteNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imnuClienteNActionPerformed
         // TODO add your handling code here:
+        this.dispose();
         CadastroCliente app = new CadastroCliente();
         app.setVisible(true);
+
     }//GEN-LAST:event_imnuClienteNActionPerformed
 
     private void lbLogoEmpresaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLogoEmpresaMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_lbLogoEmpresaMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja mesmo Sair do Sistema?", "Atenção", JOptionPane.YES_OPTION);
+        if (opcao == JOptionPane.YES_OPTION) {
+            System.exit(0);
+
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -216,27 +235,27 @@ private JLabel pessoa;
         });
     }
 
-    	public String verificarAcesso(String nome, String senha) {
-		
-		DaoLogin vacesso = new DaoLogin();
-		String meuAcesso = vacesso.checkAcesso(nome, senha);
-		
-	    nomeUsuario = nome;
-	    String nomeMaiusculo =  nomeUsuario.toUpperCase();
-	    pessoa.setText(nomeMaiusculo);
-	    
-	    String vAcessoFinal = meuAcesso.toLowerCase();
-	    
-		if(vAcessoFinal.equals("adm"))
-		
-		if(vAcessoFinal.equals("oper"))
-		
-		if(vAcessoFinal.equals("gestao"))
-		
-		System.out.println("Acesso Menu: " + meuAcesso);
-		return meuAcesso;
+    public String verificarAcesso(String nome, String senha) {
 
-	}
+        DaoLogin vacesso = new DaoLogin();
+        String meuAcesso = vacesso.checkAcesso(nome, senha);
+
+        nomeUsuario = nome;
+        String nomeMaiusculo = nomeUsuario.toUpperCase();
+        pessoa.setText(nomeMaiusculo);
+
+        String vAcessoFinal = meuAcesso.toLowerCase();
+
+        if (vAcessoFinal.equals("adm")) {
+            if (vAcessoFinal.equals("oper")) {
+                if (vAcessoFinal.equals("gestao")) {
+                    System.out.println("Acesso Menu: " + meuAcesso);
+                }
+            }
+        }
+        return meuAcesso;
+
+    }
 
 //	public void setMenu(boolean menuCadastro, boolean menuConsulta, boolean menuBuscar,boolean nFilmes, boolean cLogin) {
 //
@@ -247,7 +266,7 @@ private JLabel pessoa;
 //		subCadastroLogin.setEnabled(cLogin);
 //	}
 //    
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu MnuItemProduto;
     private javax.swing.JMenuBar barraDeMenu;

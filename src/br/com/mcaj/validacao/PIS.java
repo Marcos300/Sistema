@@ -10,29 +10,40 @@ package br.com.mcaj.validacao;
  *
  * @author Marcos
  */
-import java.util.regex.*;
-
-import java.io.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 
 public class PIS {
 
-    private static String Formato = "###########";
-    private  String  pis;
+    //999.99999.99-9
+    private static String Formato = "###.#####.##-#";
+    private String pis;
+    private boolean mascara;
 
-    public PIS(String pis) {
-        this.pis = pis;
+    public PIS(String pis, boolean mask) {
+        this.mascara = mask;
+        this.pis = this.Format(pis, false);
     }
 
-
-    static public boolean ValidarPIS(String pis) {
+    public boolean validarPIS(String pis) {
 
         int total = 0;
-
         int[] peso = new int[]{3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
-
         String parteNumerica = pis.replaceAll("\\.", "").replaceAll("\\-", "");
+
+        if (parteNumerica.equals("00000000000")
+                || parteNumerica.equals("11111111111")
+                || parteNumerica.equals("22222222222")
+                || parteNumerica.equals("33333333333")
+                || parteNumerica.equals("44444444444")
+                || parteNumerica.equals("55555555555")
+                || parteNumerica.equals("66666666666")
+                || parteNumerica.equals("77777777777")
+                || parteNumerica.equals("88888888888")
+                || parteNumerica.equals("99999999999")
+                || parteNumerica.length() != 11) {
+            return (false);
+        }
 
         while (parteNumerica.length() < 11) {
             parteNumerica = "0" + parteNumerica;
@@ -68,50 +79,16 @@ public class PIS {
 
     }
 
-    public static void main(String[] args) {
-
-        String padrao = "^\\d{3}\\.?\\d{5}\\.?\\d{2}-?\\d$";
-
-        Pattern regex = Pattern.compile(padrao);
-
-        String resposta = "";
-
-        try {
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-            while (!(resposta.equals("FIM"))) {
-
-                System.out.print("PIS: ");
-
-                resposta = reader.readLine().trim();
-
-                if (resposta.toUpperCase().equals("FIM")) {
-                    break;
-                }
-
-                Matcher resultado = regex.matcher(resposta);
-
-                if (resultado.matches() && ValidarPIS(resposta)) {
-
-                    System.out.println("O valor " + resposta + " é válido!");
-
-                } else {
-
-                    System.out.println("O valor " + resposta + " não é válido!");
-
-                }
-
-                System.out.println();
-
-            }
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
+    //999.99999.99-9
+    private String Format(String pis, boolean Mascara) {
+        if (Mascara) {
+            return (pis.substring(0, 2) + "." + pis.substring(4, 8) + "."
+                    + pis.substring(9, 10) + "-" + pis.substring(11));
+        } else {
+            pis = pis.replace(".", "");
+            pis = pis.replace("-", "");
+            return pis;
         }
-
     }
 
     public static DefaultFormatterFactory getFormat() {

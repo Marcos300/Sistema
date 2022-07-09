@@ -21,12 +21,16 @@ import br.com.mcaj.validacao.Email;
 import br.com.mcaj.validacao.RG;
 import br.com.mcaj.validacao.Telefone;
 import br.com.mcaj.validacao.CNH;
+import br.com.mcaj.validacao.PIS;
+import br.com.mcaj.validacao.Titulo;
 import br.com.mcaj.webcam.TirarFotoDaWebcam;
 import br.com.mcaj.webservice.BuscarCep;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
@@ -67,9 +71,8 @@ public class CadastroCliente extends javax.swing.JFrame {
                     "Falha na Conexao, o sistema sera fechada!");
             System.exit(0);
         }
-        
-        
-        setBotoes(false, false, true, true, true);
+
+        setBotoes(false, false, true, true, true, false, false);
 
         setCampos(false, false, false, false, false,
                 false, false, false, false, false, false,
@@ -153,10 +156,18 @@ public class CadastroCliente extends javax.swing.JFrame {
         lbFotoFaxadaCliente = new javax.swing.JLabel();
         txtCep = new javax.swing.JFormattedTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Cadastro de Clientes");
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel5.setBackground(new java.awt.Color(255, 153, 153));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Comandos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 16), new java.awt.Color(255, 0, 0))); // NOI18N
@@ -377,7 +388,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             }
         });
 
-        cboTipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "CPF", "CNPJ", "RG", "CNH" }));
+        cboTipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "CPF", "CNPJ", "RG", "CNH", "PIS", "Titulo" }));
         cboTipoDoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboTipoDocActionPerformed(evt);
@@ -390,6 +401,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         });
 
         jdcDataNasc.setToolTipText("");
+        jdcDataNasc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jdcDataNascMouseExited(evt);
+            }
+        });
         jdcDataNasc.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jdcDataNascKeyReleased(evt);
@@ -444,6 +460,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         });
 
         btBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/loupe_magnifying_glass_search_lens_icon_185980.png"))); // NOI18N
+        btBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBuscarActionPerformed(evt);
+            }
+        });
 
         btBuscaFoto.setIcon(new javax.swing.ImageIcon("C:\\Users\\Marcos\\Downloads\\gallery_128x128-32_22269.png")); // NOI18N
         btBuscaFoto.addActionListener(new java.awt.event.ActionListener() {
@@ -474,12 +495,13 @@ public class CadastroCliente extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btBuscaFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                .addGap(22, 22, 22)
                 .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 821, Short.MAX_VALUE)
                     .addGroup(painelDadosClientesLayout.createSequentialGroup()
                         .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(painelDadosClientesLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
                                 .addGroup(painelDadosClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lbEmail)
                                     .addComponent(lbTelFixo)
@@ -843,6 +865,8 @@ public class CadastroCliente extends javax.swing.JFrame {
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
         // TODO add your handling code here:
         dispose();
+        Menu menu = new Menu();
+        menu.setVisible(true);
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void selecGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selecGravarActionPerformed
@@ -858,7 +882,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             btGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/savetheapplication_guardar_2958.png")));
             btGravar.setToolTipText("Gravar");
         }
-        setBotoes(true, true, true, true, true);
+        setBotoes(true, true, true, true, true, true, true);
 
     }//GEN-LAST:event_selecGravarActionPerformed
 
@@ -875,7 +899,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             btGravar.setToolTipText("Atualizar");
 
         }
-        setBotoes(true, true, true, true, true);
+        setBotoes(true, true, true, true, true, true, true);
     }//GEN-LAST:event_selecAtualizarActionPerformed
 
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
@@ -938,14 +962,33 @@ public class CadastroCliente extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "RG Invalido!!!", "Erro na RG", JOptionPane.ERROR_MESSAGE);
                 txtCpf.setValue("");
             }
+        } else if (cboTipoDoc.getSelectedIndex() == 5) {
 
+            PIS pis = new PIS(cpf, true);
+            boolean vPis = pis.validarPIS(cpf);
+            if (vPis == true) {
+
+            } else {
+                JOptionPane.showMessageDialog(null, "PIS Invalido!!!", "Erro no PIS", JOptionPane.ERROR_MESSAGE);
+                txtCpf.setValue("");
+            }
+        } else if (cboTipoDoc.getSelectedIndex() == 6) {
+
+            Titulo titulo = new Titulo(cpf, true);
+            boolean vTitulo = titulo.validarTitulo(cpf);
+            if (vTitulo == true) {
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Titulo Invalido!!!", "Erro no Titulo", JOptionPane.ERROR_MESSAGE);
+                txtCpf.setValue("");
+            }
         }
     }//GEN-LAST:event_txtCpfActionPerformed
 
     private void jdcDataNascKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jdcDataNascKeyReleased
         // TODO add your handling code here:
-
-
+        TratamentoData trataData = new TratamentoData();
+        trataData.dataMenorQueHoje(jdcDataNasc.getDate().toString());
     }//GEN-LAST:event_jdcDataNascKeyReleased
 
     private void jdcDataNascKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jdcDataNascKeyTyped
@@ -969,28 +1012,34 @@ public class CadastroCliente extends javax.swing.JFrame {
             case 0:
                 txtCpf.setEnabled(false);
                 txtCpf.setFormatterFactory(CNH.getFormat());
-
                 break;
+
             case 1:
                 txtCpf.setEnabled(true);
                 txtCpf.setFormatterFactory(CPF.getFormat());
-
                 break;
             case 2:
                 txtCpf.setEnabled(true);
                 txtCpf.setFormatterFactory(CNPJ.getFormat());
-
                 break;
 
             case 3:
                 txtCpf.setEnabled(true);
                 txtCpf.setFormatterFactory(RG.getFormat());
-
                 break;
             case 4:
                 txtCpf.setEnabled(true);
                 txtCpf.setFormatterFactory(CNH.getFormat());
+                break;
 
+            case 5:
+                txtCpf.setEnabled(true);
+                txtCpf.setFormatterFactory(PIS.getFormat());
+                break;
+
+            case 6:
+                txtCpf.setEnabled(true);
+                txtCpf.setFormatterFactory(Titulo.getFormat());
                 break;
         }
     }//GEN-LAST:event_cboTipoDocActionPerformed
@@ -1309,8 +1358,8 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void lbFotoFaxadaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbFotoFaxadaClienteMouseClicked
         // TODO add your handling code here:
-        if (fotohabilitada == false){
-            
+        if (fotohabilitada == false) {
+
         } else {
             if (evt.getClickCount() == 2) {
                 lbFotoFaxadaCliente.setIcon(null);
@@ -1320,19 +1369,19 @@ public class CadastroCliente extends javax.swing.JFrame {
                         "jpg", "png"));
                 fc.setAcceptAllFileFilterUsed(false);
                 int res = fc.showOpenDialog(null);
-                
+
                 if (res == JFileChooser.APPROVE_OPTION) {
                     File arquivo = fc.getSelectedFile();
-                    
+
                     try {
                         imagemFaxadaCliente = ManipularImagem.setImagemDimensao(arquivo.getAbsolutePath(), 320, 200);
-                        
+
                         lbFotoFaxadaCliente.setIcon(new ImageIcon(imagemFaxadaCliente));
-                        
+
                     } catch (Exception ex) {
                         // System.out.println(ex.printStackTrace().toString());
                     }
-                    
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Voce nao selecionou nenhum arquivo.");
                 }
@@ -1368,8 +1417,8 @@ public class CadastroCliente extends javax.swing.JFrame {
                     true, true, true, true, true, true,
                     true, true, true, true, true, true, true,
                     true, true, true, true, true, true, true);
-            
-            setBotoes(false, true, true, false, true);
+
+            setBotoes(false, true, true, false, true, true, true);
 
         } catch (SQLException ex) {
             Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -1394,7 +1443,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             btGravar.setToolTipText("Deletar");
         }
 
-        setBotoes(true, true, true, true, true);
+        setBotoes(true, true, true, true, true, true, true);
 
     }//GEN-LAST:event_selecDeletarActionPerformed
 
@@ -1410,8 +1459,44 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void painelFotoFaxadaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_painelFotoFaxadaMouseClicked
         // TODO add your handling code here:
-         
+
     }//GEN-LAST:event_painelFotoFaxadaMouseClicked
+
+    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        BuscaCliente app;
+        try {
+            app = new BuscaCliente();
+            app.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(CadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btBuscarActionPerformed
+
+    private void jdcDataNascMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jdcDataNascMouseExited
+        // TODO add your handling code here:
+        TratamentoData trataData = new TratamentoData();
+        trataData.dataMenorQueHoje(jdcDataNasc.getDate().toString());
+    }//GEN-LAST:event_jdcDataNascMouseExited
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja mesmo Fechar a Tela?", "Atenção", JOptionPane.YES_OPTION);
+        if (opcao == JOptionPane.YES_OPTION) {
+            dispose();
+            Menu menu = new Menu();
+            menu.setVisible(true);
+
+        }
+
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -1455,13 +1540,14 @@ public class CadastroCliente extends javax.swing.JFrame {
         confbotoes.add(selecDeletar);
     }
 
-    public void setBotoes(boolean gravar, boolean limpar, boolean cancelar, boolean novo, boolean buscar) {
+    public void setBotoes(boolean gravar, boolean limpar, boolean cancelar, boolean novo, boolean buscar, boolean webcam, boolean buscaFoto) {
         btGravar.setEnabled(gravar);
         btLimpar.setEnabled(limpar);
         btCancelar.setEnabled(cancelar);
         btNovo.setEnabled(novo);
         btBuscar.setEnabled(buscar);
-
+        btWebcam.setEnabled(webcam);
+        btBuscaFoto.setEnabled(buscaFoto);
     }
 
     public void mascararCampos() {
@@ -1502,6 +1588,63 @@ public class CadastroCliente extends javax.swing.JFrame {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+    }
+
+    public void recebeDadosBusca(String codigo, Byte foto, String nome, String documento,
+            String tipoDoc, String email, String tel, String cel, String nomeRecado, String telRecado,
+            String celRecado, String cep, String end, String bairro, String cidade,
+            String uf, String numResidencia, String complemento, String referencia) {
+
+        Date novaData = null;
+        String dataFormatada = null;
+        Date novaDataFormatada = null;
+        txtCodigo.setText(codigo);
+
+        //  ManipularImagem.exibiImagemLabel(foto, lbFotoFaxadaCliente);
+        txtNome.setText(nome);
+
+        switch (tipoDoc) {
+            case "CPF":
+                cboTipoDoc.setSelectedIndex(1);
+                break;
+            case "CNPJ":
+                cboTipoDoc.setSelectedIndex(2);
+                break;
+            case "RG":
+                cboTipoDoc.setSelectedIndex(3);
+                break;
+            case "CNH":
+                cboTipoDoc.setSelectedIndex(4);
+                break;
+            case "PIS":
+                cboTipoDoc.setSelectedIndex(5);
+                break;
+            case "Titulo":
+                cboTipoDoc.setSelectedIndex(6);
+                break;
+            default:
+                cboTipoDoc.setSelectedIndex(0);
+                break;
+        }
+        txtCpf.setText(documento);
+
+        txtEmail.setText(email);
+        txtTel.setText(tel);
+        txtCel.setText(cel);
+        txtNomeRecado.setText(nomeRecado);
+        txtTelRecado.setText(telRecado);
+        txtCelRecado.setText(celRecado);
+        txtCep.setText(cep);
+        txtEndereco.setText(end);
+        txtBairro.setText(bairro);
+        txtCidade.setText(cidade);
+        txtUf.setText(uf);
+        txtNumResidencia.setText(numResidencia);
+        txtComplemento.setText(complemento);
+        txtPontoReferencia.setText(referencia);
+        //ManipularImagem.exibiImagemLabel(beanCliente.getFotoFaxadaCliente(), lbFotoFaxadaCliente);
+        //selecGravar.setEnabled(false);
 
     }
 
@@ -1691,6 +1834,12 @@ public class CadastroCliente extends javax.swing.JFrame {
             case "CNH":
                 cboTipoDoc.setSelectedIndex(4);
                 break;
+            case "PIS":
+                cboTipoDoc.setSelectedIndex(5);
+                break;
+            case "Titulo":
+                cboTipoDoc.setSelectedIndex(6);
+                break;
             default:
                 cboTipoDoc.setSelectedIndex(0);
                 break;
@@ -1740,7 +1889,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         txtPontoReferencia.setText("");
         lbFotoFaxadaCliente.setIcon(null);
         confbotoes.clearSelection();
-        setBotoes(false, false, false, true, true);
+        setBotoes(false, false, false, true, true, false, false);
     }
 
     public void setCampos(boolean codigo, boolean nome, boolean documento, boolean dataNasc, boolean tipoDoc,

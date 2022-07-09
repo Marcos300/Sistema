@@ -60,7 +60,7 @@ public class CadProduto extends javax.swing.JFrame {
         selecAtualizar = new javax.swing.JRadioButton();
         btNovo = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Cadastro de Produtos");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -113,11 +113,11 @@ public class CadProduto extends javax.swing.JFrame {
         });
 
         painelComandos.setBackground(new java.awt.Color(255, 255, 153));
-        painelComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Comandos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(204, 0, 0))); // NOI18N
+        painelComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Comandos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(204, 0, 0))); // NOI18N
         painelComandos.setLayout(new java.awt.GridLayout(1, 0));
 
         painelDeComandos.setBackground(new java.awt.Color(204, 255, 204));
-        painelDeComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Executar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(204, 0, 0))); // NOI18N
+        painelDeComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Executar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(204, 0, 0))); // NOI18N
 
         btGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/savetheapplication_guardar_2958.png"))); // NOI18N
         btGravar.setText("Gravar");
@@ -151,7 +151,7 @@ public class CadProduto extends javax.swing.JFrame {
         painelComandos.add(painelDeComandos);
 
         jPanel1.setBackground(new java.awt.Color(51, 255, 51));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolher", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(204, 0, 0))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolher", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(204, 0, 0))); // NOI18N
 
         selecGravar.setText("Gravar");
         selecGravar.addActionListener(new java.awt.event.ActionListener() {
@@ -286,7 +286,10 @@ public class CadProduto extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja mesmo fechar essa Tela?", "Atenção", JOptionPane.YES_OPTION);
+        if (opcao == JOptionPane.YES_OPTION) {
+          this.dispose();
+        }
     }//GEN-LAST:event_formWindowClosing
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

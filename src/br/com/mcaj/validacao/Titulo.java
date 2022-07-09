@@ -15,10 +15,17 @@ import javax.swing.text.MaskFormatter;
  */
 public class Titulo {
 
-    private static final String Formato = "###########";
+    private static final String formato = "############";
+    private boolean mascara;
+    private String titulo;
     //Validar Título de Eleitor
 
-    public static String ValidarTitulo(String strTitulo) {
+    public Titulo(String titulo, boolean mask) {
+        this.titulo = titulo;
+        this.mascara= mask;
+    }
+
+    public boolean validarTitulo(String strTitulo) {
         int dig1;
         int dig2;
         int dig3;
@@ -34,14 +41,18 @@ public class Titulo {
         int dv1;
         int dv2;
         int qDig;
+        
+        
 
         if (strTitulo.length() == 0) //Validação do preenchimento
         {
-            return "Número não informado!"; //Caso não seja informado o Título
+            //return "Número não informado!"; //Caso não seja informado o Título
+            return false;
         } else {
-            if (strTitulo.length() < 12) {                          //Completar 12 dígitos  strTitulo = "000000000000" + strTitulo;  strTitulo = strTitulo.substring(strTitulo.length() - 12);                  }         else if (strTitulo.length() > 12)
+            if (strTitulo.length() < 12) { //Completar 12 dígitos  strTitulo = "000000000000" + strTitulo;  strTitulo = strTitulo.substring(strTitulo.length() - 12);                  }         else if (strTitulo.length() > 12)
                 {
-                    return "Número inválido!"; //Caso tenha mais que 12 dígitos
+                    //return "Número inválido!"; //Caso tenha mais que 12 dígitos
+                    return false;
                 }
             }
 
@@ -80,9 +91,11 @@ public class Titulo {
 
             //Validação dos dígitos validadores, após o cálculo realizado
             if (dig11 == dv1 && dig12 == dv2) {
-                return "Título Válido!";
+                //return "Título Válido!";
+                return true;
             } else {
-                return "Título Inválido!";
+                //return "Título Inválido!";
+                return false;
             }
 
         }
@@ -96,7 +109,7 @@ public class Titulo {
 
     public static DefaultFormatterFactory getFormat() {
         try {
-            return new DefaultFormatterFactory(new MaskFormatter(Formato));
+            return new DefaultFormatterFactory(new MaskFormatter(formato));
         } catch (Exception e) {
             return null;
         }

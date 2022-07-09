@@ -103,11 +103,16 @@ public class CarregarProdutos extends javax.swing.JFrame {
         buscar = new javax.swing.JTextField();
         cboCampoEscolhido = new javax.swing.JComboBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Carregar os Produtos");
         setBackground(new java.awt.Color(255, 255, 204));
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         setName("TelaCargaRegistro"); // NOI18N
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         painel.setBackground(new java.awt.Color(102, 102, 255));
         painel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
@@ -153,13 +158,13 @@ public class CarregarProdutos extends javax.swing.JFrame {
         tabela.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         painelComandos.setBackground(new java.awt.Color(255, 255, 153));
-        painelComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Comandos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 0, 0))); // NOI18N
+        painelComandos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Comandos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(255, 0, 0))); // NOI18N
         painelComandos.setInheritsPopupMenu(true);
         painelComandos.setName("Comandos"); // NOI18N
         painelComandos.setLayout(new javax.swing.BoxLayout(painelComandos, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Executar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(0, 51, 51))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Executar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(0, 51, 51))); // NOI18N
         jPanel1.setForeground(new java.awt.Color(255, 0, 0));
 
         btGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/savetheapplication_guardar_2958.png"))); // NOI18N
@@ -183,7 +188,7 @@ public class CarregarProdutos extends javax.swing.JFrame {
         painelComandos.add(jPanel1);
 
         painelEscolhaAcao.setBackground(new java.awt.Color(51, 255, 51));
-        painelEscolhaAcao.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolher", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 0, 0))); // NOI18N
+        painelEscolhaAcao.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolher", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(255, 0, 0))); // NOI18N
         painelEscolhaAcao.setForeground(new java.awt.Color(255, 0, 0));
 
         selecGrava.setText("Gravar");
@@ -215,7 +220,7 @@ public class CarregarProdutos extends javax.swing.JFrame {
         painelComandos.add(painelEscolhaAcao);
 
         jPanel2.setBackground(new java.awt.Color(0, 51, 51));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Carregar Arquivo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 255, 255))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Carregar Arquivo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
         jPanel2.setForeground(new java.awt.Color(204, 0, 0));
 
         btCarregar.setBackground(new java.awt.Color(255, 51, 51));
@@ -240,7 +245,7 @@ public class CarregarProdutos extends javax.swing.JFrame {
         jPanel2.add(btLimpar);
 
         jPanel3.setBackground(new java.awt.Color(102, 0, 102));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Consultar e Exportar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(255, 255, 255))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Consultar e Exportar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         btConsulta.setBackground(new java.awt.Color(102, 255, 102));
         btConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/mcaj/gui/imagens/business_application_download_downloaddatabase_thedatabase_2320.png"))); // NOI18N
@@ -540,29 +545,35 @@ public class CarregarProdutos extends javax.swing.JFrame {
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         // TODO add your handling code here:
-      
+
         if (btConsulta.getModel().isSelected()) {
-        int linha = tabela.getSelectedRow();
+            int linha = tabela.getSelectedRow();
 
-        String nome = tabela.getValueAt(linha, 0).toString();
-        String preco = tabela.getValueAt(linha, 1).toString();
-        String quantidade = tabela.getValueAt(linha, 2).toString();
+            String nome = tabela.getValueAt(linha, 0).toString();
+            String preco = tabela.getValueAt(linha, 1).toString();
+            String quantidade = tabela.getValueAt(linha, 2).toString();
 
-        // dispose();
-        CadProduto app = new CadProduto();
-        app.setVisible(true);
-        app.RecebeInformacao(nome, preco, quantidade);
-        //app.setBotoes(false, false, false, true, true, true);
-        //app.setCampos(true, true, true, true);
-        
-   
-        
+            // dispose();
+            CadProduto app = new CadProduto();
+            app.setVisible(true);
+            app.RecebeInformacao(nome, preco, quantidade);
+            //app.setBotoes(false, false, false, true, true, true);
+            //app.setCampos(true, true, true, true);
+
         }
     }//GEN-LAST:event_tabelaMouseClicked
 
     private void cboCampoEscolhidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboCampoEscolhidoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboCampoEscolhidoActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja mesmo fechar essa Tela?", "Atenção", JOptionPane.YES_OPTION);
+        if (opcao == JOptionPane.YES_OPTION) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -764,7 +775,7 @@ public class CarregarProdutos extends javax.swing.JFrame {
 
     public void carregarTabelaBanco() throws SQLException {
         buscarTodosProdutos();
-    
+
         dados = new ArrayList<>();
         colunas = new String[]{"nome", "preco", "quantidade"};
 
@@ -897,9 +908,9 @@ public class CarregarProdutos extends javax.swing.JFrame {
     private javax.swing.JPanel txtBuscar;
     // End of variables declaration//GEN-END:variables
 
- public void limparTabela(){
-     //modelo.LimparTabela();
-     btConsulta.getModel().setSelected(false);
-     btConsulta.getModel().setSelected(true);
- }
+    public void limparTabela() {
+        //modelo.LimparTabela();
+        btConsulta.getModel().setSelected(false);
+        btConsulta.getModel().setSelected(true);
+    }
 }
