@@ -5,10 +5,10 @@
  */
 package br.com.mcaj.gui;
 
-import br.com.mcaj.bdimg.ManipularImagem;
 import br.com.mcaj.bean.BeanCliente;
 import br.com.mcaj.dao.DaoCadCliente;
 import br.com.mcaj.metodos.TratamentoData;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
@@ -315,8 +314,8 @@ public class BuscaCliente extends javax.swing.JFrame {
         int opcao = JOptionPane.showConfirmDialog(null, "Deseja mesmo Fechar a Tela?", "Atenção", JOptionPane.YES_OPTION);
         if (opcao == JOptionPane.YES_OPTION) {
             dispose();
-            Menu menu = new Menu();
-            menu.setVisible(true);
+          CadastroCliente app = new CadastroCliente();
+          app.setVisible(true);
 
         }
 

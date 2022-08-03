@@ -10,9 +10,6 @@ import br.com.mcaj.dao.DaoCadProduto;
 import br.com.mcaj.metodos.BloqueiaLetrasEnumeros;
 import br.com.mcaj.metodos.MetodosCadProduto;
 
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 

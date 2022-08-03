@@ -30,7 +30,6 @@ import java.io.File;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
@@ -864,9 +863,16 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
         // TODO add your handling code here:
-        dispose();
-        Menu menu = new Menu();
-        menu.setVisible(true);
+
+        int opcao = JOptionPane.showConfirmDialog(null, "Deseja mesmo Fechar a Tela?", "Atenção", JOptionPane.YES_OPTION);
+        if (opcao == JOptionPane.YES_OPTION) {
+            dispose();
+            Menu menu = new Menu();
+            menu.setVisible(true);
+
+        }
+
+
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void selecGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selecGravarActionPerformed
